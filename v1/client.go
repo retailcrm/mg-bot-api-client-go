@@ -19,8 +19,27 @@ func New(url string, token string) *MgClient {
 	}
 }
 
-func (c *MgClient) Bots(request BotsRequest) (BotsResponse, int, error) {
-	var resp BotsResponse
+// Bots get all available bots
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.Bots()
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	for _, bot := range data {
+// 		fmt.Printf("%v %v\n", bot.Name, bot.CreatedAt)
+// 	}
+func (c *MgClient) Bots(request BotsRequest) ([]BotsResponseItem, int, error) {
+	var resp []BotsResponseItem
 	var b []byte
 	outgoing, _ := query.Values(request)
 
@@ -40,8 +59,27 @@ func (c *MgClient) Bots(request BotsRequest) (BotsResponse, int, error) {
 	return resp, status, err
 }
 
-func (c *MgClient) Channels(request ChannelsRequest) (ChannelsResponse, int, error) {
-	var resp ChannelsResponse
+// Channels get all available channels
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.Channels()
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	for _, channel := range data {
+// 		fmt.Printf("%v %v\n", channel.Type, channel.CreatedAt)
+// 	}
+func (c *MgClient) Channels(request ChannelsRequest) ([]ChannelResponseItem, int, error) {
+	var resp []ChannelResponseItem
 	var b []byte
 	outgoing, _ := query.Values(request)
 
@@ -61,12 +99,31 @@ func (c *MgClient) Channels(request ChannelsRequest) (ChannelsResponse, int, err
 	return resp, status, err
 }
 
-func (c *MgClient) Managers(request ManagersRequest) (ManagersResponse, int, error) {
-	var resp ManagersResponse
+// Users get all available users
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.Users(UsersRequest:{Active:1})
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	for _, user := range data {
+// 		fmt.Printf("%v %v\n", user.FirstName, user.IsOnline)
+// 	}
+func (c *MgClient) Users(request UsersRequest) ([]UsersResponseItem, int, error) {
+	var resp []UsersResponseItem
 	var b []byte
 	outgoing, _ := query.Values(request)
 
-	data, status, err := c.GetRequest(fmt.Sprintf("/managers?%s", outgoing.Encode()), b)
+	data, status, err := c.GetRequest(fmt.Sprintf("/users?%s", outgoing.Encode()), b)
 	if err != nil {
 		return resp, status, err
 	}
@@ -82,8 +139,27 @@ func (c *MgClient) Managers(request ManagersRequest) (ManagersResponse, int, err
 	return resp, status, err
 }
 
-func (c *MgClient) Customers(request CustomersRequest) (CustomersResponse, int, error) {
-	var resp CustomersResponse
+// Customers get all available customers
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.Customers()
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	for _, customer := range data {
+// 		fmt.Printf("%v %v\n", customer.FirstName, customer.Avatar)
+// 	}
+func (c *MgClient) Customers(request CustomersRequest) ([]CustomersResponseItem, int, error) {
+	var resp []CustomersResponseItem
 	var b []byte
 	outgoing, _ := query.Values(request)
 
@@ -103,8 +179,27 @@ func (c *MgClient) Customers(request CustomersRequest) (CustomersResponse, int, 
 	return resp, status, err
 }
 
-func (c *MgClient) Chats(request ChatsRequest) (ChatsResponse, int, error) {
-	var resp ChatsResponse
+// Chats get all available chats
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.Chats(ChatsRequest{ChannelType:ChannelTypeWhatsapp})
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	for _, chat := range data {
+// 		fmt.Printf("%v %v\n", chat.Customer, chat.LastMessage)
+// 	}
+func (c *MgClient) Chats(request ChatsRequest) ([]ChatResponseItem, int, error) {
+	var resp []ChatResponseItem
 	var b []byte
 	outgoing, _ := query.Values(request)
 
@@ -124,8 +219,27 @@ func (c *MgClient) Chats(request ChatsRequest) (ChatsResponse, int, error) {
 	return resp, status, err
 }
 
-func (c *MgClient) Members(request MembersRequest) (MembersResponse, int, error) {
-	var resp MembersResponse
+// Members get all available chat members
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.Members(MembersRequest{State:ChatMemberStateActive})
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	for _, member := range data {
+// 		fmt.Printf("%v\n", member.CreatedAt)
+// 	}
+func (c *MgClient) Members(request MembersRequest) ([]MemberResponseItem, int, error) {
+	var resp []MemberResponseItem
 	var b []byte
 	outgoing, _ := query.Values(request)
 
@@ -145,8 +259,27 @@ func (c *MgClient) Members(request MembersRequest) (MembersResponse, int, error)
 	return resp, status, err
 }
 
-func (c *MgClient) Dialogs(request DialogsRequest) (DialogsResponse, int, error) {
-	var resp DialogsResponse
+// Dialogs get all available dialogs
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.Dialogs(DialogsRequest{Active:1})
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	for _, dialog := range data {
+// 		fmt.Printf("%v %v\n", dialog.ChatID, dialog.CreatedAt)
+// 	}
+func (c *MgClient) Dialogs(request DialogsRequest) ([]DialogResponseItem, int, error) {
+	var resp []DialogResponseItem
 	var b []byte
 	outgoing, _ := query.Values(request)
 
@@ -170,7 +303,7 @@ func (c *MgClient) DialogAssign(request DialogAssignRequest) (DialogAssignRespon
 	var resp DialogAssignResponse
 	outgoing, _ := json.Marshal(&request)
 
-	data, status, err := c.PostRequest(fmt.Sprintf("/dialogs/%s/assign", request.ID), []byte(outgoing))
+	data, status, err := c.PatchRequest(fmt.Sprintf("/dialogs/%d/assign", request.DialogID), []byte(outgoing))
 	if err != nil {
 		return resp, status, err
 	}
@@ -186,11 +319,26 @@ func (c *MgClient) DialogAssign(request DialogAssignRequest) (DialogAssignRespon
 	return resp, status, err
 }
 
-func (c *MgClient) DialogClose(request DialogCloseRequest) (DialogCloseResponse, int, error) {
-	var resp DialogCloseResponse
+// DialogClose close selected dialog
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	_, status, err := client.DialogClose(123)
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+func (c *MgClient) DialogClose(request uint64) (map[string]interface{}, int, error) {
+	var resp map[string]interface{}
 	outgoing, _ := json.Marshal(&request)
 
-	data, status, err := c.PostRequest(fmt.Sprintf("/dialogs/%s/close", request.ID), []byte(outgoing))
+	data, status, err := c.DeleteRequest(fmt.Sprintf("/dialogs/%d/close", request), []byte(outgoing))
 	if err != nil {
 		return resp, status, err
 	}
@@ -206,8 +354,27 @@ func (c *MgClient) DialogClose(request DialogCloseRequest) (DialogCloseResponse,
 	return resp, status, err
 }
 
-func (c *MgClient) Messages(request MessagesRequest) (MessagesResponse, int, error) {
-	var resp MessagesResponse
+// Messages get all available messages
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.Messages(MessagesRequest{ManagerID:5})
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	for _, message := range data {
+// 		fmt.Printf("%v %v %v\n", message.ChatID, message.CreatedAt, message.CustomerID)
+// 	}
+func (c *MgClient) Messages(request MessagesRequest) ([]MessagesResponseItem, int, error) {
+	var resp []MessagesResponseItem
 	var b []byte
 	outgoing, _ := query.Values(request)
 
@@ -227,8 +394,29 @@ func (c *MgClient) Messages(request MessagesRequest) (MessagesResponse, int, err
 	return resp, status, err
 }
 
-func (c *MgClient) MessageSend(request MessageSendRequest) (MessageResponse, int, error) {
-	var resp MessageResponse
+// MessageSend send message
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.MessageSend(MessageSendRequest{
+// 		Scope:   "public",
+// 		Content: "test",
+// 		ChatID:  i,
+// 	})
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// fmt.Printf("%v \n", data.MessageID, data.Time)
+func (c *MgClient) MessageSend(request MessageSendRequest) (MessageSendResponse, int, error) {
+	var resp MessageSendResponse
 	outgoing, _ := json.Marshal(&request)
 
 	data, status, err := c.PostRequest("/messages", []byte(outgoing))
@@ -247,11 +435,29 @@ func (c *MgClient) MessageSend(request MessageSendRequest) (MessageResponse, int
 	return resp, status, err
 }
 
-func (c *MgClient) MessageEdit(request MessageEditRequest) (MessageResponse, int, error) {
-	var resp MessageResponse
+// MessageEdit update selected message
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	_, status, err := client.MessageEdit(MessageEditRequest{
+// 		ID:      123,
+// 		Content: "test",
+// 	})
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+func (c *MgClient) MessageEdit(request MessageEditRequest) (map[string]interface{}, int, error) {
+	var resp map[string]interface{}
 	outgoing, _ := json.Marshal(&request)
 
-	data, status, err := c.PatchRequest(fmt.Sprintf("/messages/%s", request.ID), []byte(outgoing))
+	data, status, err := c.PatchRequest(fmt.Sprintf("/messages/%d", request.ID), []byte(outgoing))
 	if err != nil {
 		return resp, status, err
 	}
@@ -267,11 +473,26 @@ func (c *MgClient) MessageEdit(request MessageEditRequest) (MessageResponse, int
 	return resp, status, err
 }
 
-func (c *MgClient) MessageDelete(request MessageDeleteRequest) (MessageResponse, int, error) {
-	var resp MessageResponse
+// MessageDelete delete selected message
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	_, status, err := client.MessageDelete(123)
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+func (c *MgClient) MessageDelete(request uint64) (map[string]interface{}, int, error) {
+	var resp map[string]interface{}
 	outgoing, _ := json.Marshal(&request)
 
-	data, status, err := c.DeleteRequest(fmt.Sprintf("/messages/%s", request.ID), []byte(outgoing))
+	data, status, err := c.DeleteRequest(fmt.Sprintf("/messages/%d", request), []byte(outgoing))
 	if err != nil {
 		return resp, status, err
 	}
@@ -287,11 +508,26 @@ func (c *MgClient) MessageDelete(request MessageDeleteRequest) (MessageResponse,
 	return resp, status, err
 }
 
-func (c *MgClient) Info(request InfoRequest) (InfoResponse, int, error) {
-	var resp InfoResponse
+// Info updates bot information
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	_, status, err := client.Info(InfoRequest{Name: "AWESOME", Avatar: "https://example.com/logo.svg"})
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+func (c *MgClient) Info(request InfoRequest) (map[string]interface{}, int, error) {
+	var resp map[string]interface{}
 	outgoing, _ := json.Marshal(&request)
 
-	data, status, err := c.PatchRequest("/messages/info", []byte(outgoing))
+	data, status, err := c.PatchRequest("/my/info", []byte(outgoing))
 	if err != nil {
 		return resp, status, err
 	}
@@ -307,8 +543,27 @@ func (c *MgClient) Info(request InfoRequest) (InfoResponse, int, error) {
 	return resp, status, err
 }
 
-func (c *MgClient) Commands(request CommandsRequest) (CommandsResponse, int, error) {
-	var resp CommandsResponse
+// Commands get all available commands for bot
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.Commands()
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	for _, command := range data {
+// 		fmt.Printf("%v %v\n", command.Name, command.Description)
+// 	}
+func (c *MgClient) Commands(request CommandsRequest) ([]CommandsResponseItem, int, error) {
+	var resp []CommandsResponseItem
 	var b []byte
 	outgoing, _ := query.Values(request)
 
@@ -328,8 +583,29 @@ func (c *MgClient) Commands(request CommandsRequest) (CommandsResponse, int, err
 	return resp, status, err
 }
 
-func (c *MgClient) CommandEdit(request CommandEditRequest) (CommandEditResponse, int, error) {
-	var resp CommandEditResponse
+// CommandEdit create or change command for bot
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.CommandEdit(CommandEditRequest{
+// 		BotID:       1,
+// 		Name:        "show_payment_types",
+// 		Description: "Get available payment types",
+// 	})
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	fmt.Printf("%v %v\n", data.Name, data.Description)
+func (c *MgClient) CommandEdit(request CommandEditRequest) (CommandsResponseItem, int, error) {
+	var resp CommandsResponseItem
 	outgoing, _ := json.Marshal(&request)
 
 	data, status, err := c.PutRequest(fmt.Sprintf("/my/commands/%s", request.Name), []byte(outgoing))
@@ -348,11 +624,26 @@ func (c *MgClient) CommandEdit(request CommandEditRequest) (CommandEditResponse,
 	return resp, status, err
 }
 
-func (c *MgClient) CommandDelete(request CommandDeleteRequest) (CommandDeleteResponse, int, error) {
-	var resp CommandDeleteResponse
+// CommandDelete delete selected command for bot
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	_, status, err := client.CommandDelete(show_payment_types)
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+func (c *MgClient) CommandDelete(request string) (map[string]interface{}, int, error) {
+	var resp map[string]interface{}
 	outgoing, _ := json.Marshal(&request)
 
-	data, status, err := c.DeleteRequest(fmt.Sprintf("/my/commands/%s", request.Name), []byte(outgoing))
+	data, status, err := c.DeleteRequest(fmt.Sprintf("/my/commands/%s", request), []byte(outgoing))
 	if err != nil {
 		return resp, status, err
 	}

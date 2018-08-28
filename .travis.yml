@@ -1,9 +1,11 @@
 language: go
 go:
-  - '1.8'
   - '1.9'
   - '1.10'
+  - '1.11'
 before_install:
   - go get -v github.com/google/go-querystring/query
-  - go get -v github.com/h2non/gock
+  - go get -v github.com/stretchr/testify/assert
+  - go get -v github.com/joho/godotenv
+
 script: go test -v ./...
