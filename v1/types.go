@@ -22,17 +22,10 @@ const (
 	MessageScopePublic  string = "public"
 	MessageScopePrivate string = "private"
 
-	BotEventMessageNew     string = "message_new"
-	BotEventMessageUpdated string = "message_updated"
-	BotEventMessageDeleted string = "message_deleted"
-	BotEventDialogOpened   string = "dialog_opened"
-	BotEventDialogClosed   string = "dialog_closed"
-	BotEventDialogAssing   string = "dialog_assign"
-	BotEventChatCreated    string = "chat_created"
-	BotEventChatUpdated    string = "chat_updated"
-	BotEventUserJoined     string = "user_joined_chat"
-	BotEventUserLeave      string = "user_left_chat"
-	BotEventUserUpdated    string = "user_updated"
+	ChannelFeatureNone    string = "none"
+	ChannelFeatureReceive string = "receive"
+	ChannelFeatureSend    string = "send"
+	ChannelFeatureBoth    string = "both"
 )
 
 // MgClient type
@@ -47,7 +40,6 @@ type MgClient struct {
 type (
 	BotsRequest struct {
 		ID     uint64 `url:"id,omitempty"`
-		Self   bool   `url:"self,omitempty"`
 		Active uint8  `url:"active,omitempty"`
 		Since  string `url:"since,omitempty"`
 		Until  string `url:"until,omitempty"`
@@ -86,12 +78,11 @@ type (
 	}
 
 	MembersRequest struct {
-		ChatID     uint64 `url:"chat_id,omitempty" json:"chat_id"`
-		ManagerID  string `url:"manager_id,omitempty" json:"manager_id"`
-		CustomerID string `url:"customer_id,omitempty" json:"customer_id"`
-		State      string `url:"state,omitempty"`
-		Since      string `url:"since,omitempty"`
-		Until      string `url:"until,omitempty"`
+		ChatID uint64 `url:"chat_id,omitempty" json:"chat_id"`
+		UserID string `url:"user_id,omitempty" json:"user_id"`
+		State  string `url:"state,omitempty"`
+		Since  string `url:"since,omitempty"`
+		Until  string `url:"until,omitempty"`
 	}
 
 	DialogsRequest struct {
@@ -99,7 +90,7 @@ type (
 		ChatID    string `url:"chat_id,omitempty" json:"chat_id"`
 		ManagerID string `url:"manager_id,omitempty" json:"manager_id"`
 		BotID     string `url:"bot_id,omitempty" json:"bot_id"`
-		Assigned  uint8  `url:"assigned,omitempty"`
+		Assign    uint8  `url:"assign,omitempty"`
 		Active    uint8  `url:"active,omitempty"`
 		Since     string `url:"since,omitempty"`
 		Until     string `url:"until,omitempty"`
@@ -121,6 +112,7 @@ type (
 		ChannelID   uint64 `url:"channel_id,omitempty" json:"channel_id"`
 		ChannelType string `url:"channel_type,omitempty" json:"channel_type"`
 		Scope       string `url:"scope,omitempty"`
+		Type        string `url:"type,omitempty"`
 		Since       string `url:"since,omitempty"`
 		Until       string `url:"until,omitempty"`
 	}
@@ -138,9 +130,8 @@ type (
 	}
 
 	InfoRequest struct {
-		Name   string   `url:"name,omitempty" json:"name"`
-		Avatar string   `url:"avatar_url,omitempty" json:"avatar_url"`
-		Events []string `url:"events,omitempty" json:"events,brackets"`
+		Name   string `url:"name,omitempty" json:"name"`
+		Avatar string `url:"avatar_url,omitempty" json:"avatar_url"`
 	}
 
 	CommandsRequest struct {
@@ -151,7 +142,6 @@ type (
 	}
 
 	CommandEditRequest struct {
-		BotID       uint64 `url:"bot_id,omitempty" json:"bot_id"`
 		Name        string `url:"name,omitempty" json:"name"`
 		Description string `url:"description,omitempty" json:"description"`
 	}
@@ -160,28 +150,26 @@ type (
 // Response types
 type (
 	BotsResponseItem struct {
-		ID            uint64   `json:"id"`
-		Name          string   `json:"name"`
-		Description   string   `json:"description,omitempty"`
-		Events        []string `json:"events,omitempty,brackets"`
-		ClientID      string   `json:"client_id,omitempty"`
-		AvatarUrl     string   `json:"avatar_url,omitempty"`
-		CreatedAt     string   `json:"created_at,omitempty"`
-		UpdatedAt     string   `json:"updated_at,omitempty"`
-		DeactivatedAt string   `json:"deactivated_at,omitempty"`
-		IsActive      bool     `json:"is_active"`
-		IsSelf        bool     `json:"is_self"`
+		ID            uint64 `json:"id"`
+		Name          string `json:"name"`
+		ClientID      string `json:"client_id,omitempty"`
+		AvatarUrl     string `json:"avatar_url,omitempty"`
+		CreatedAt     string `json:"created_at,omitempty"`
+		UpdatedAt     string `json:"updated_at,omitempty"`
+		DeactivatedAt string `json:"deactivated_at,omitempty"`
+		IsActive      bool   `json:"is_active"`
+		IsSelf        bool   `json:"is_self"`
 	}
 
 	ChannelResponseItem struct {
-		ID            uint64   `json:"id"`
-		Type          string   `json:"type"`
-		Events        []string `json:"events,omitempty,brackets"`
-		CreatedAt     string   `json:"created_at"`
-		UpdatedAt     string   `json:"updated_at"`
-		ActivatedAt   string   `json:"activated_at"`
-		DeactivatedAt string   `json:"deactivated_at"`
-		IsActive      bool     `json:"is_active"`
+		ID            uint64          `json:"id"`
+		Type          string          `json:"type"`
+		Settings      ChannelSettings `json:"settings"`
+		CreatedAt     string          `json:"created_at"`
+		UpdatedAt     string          `json:"updated_at"`
+		ActivatedAt   string          `json:"activated_at"`
+		DeactivatedAt string          `json:"deactivated_at"`
+		IsActive      bool            `json:"is_active"`
 	}
 
 	UsersResponseItem struct {
@@ -213,6 +201,7 @@ type (
 		Country    string `json:"country,omitempty"`
 		Language   string `json:"language,omitempty"`
 		Phone      string `json:"phone,omitempty"`
+		Email      string `json:"email,omitempty"`
 	}
 
 	ChatResponseItem struct {
@@ -354,5 +343,26 @@ type (
 		Description string
 		CreatedAt   string
 		UpdatedAt   string
+	}
+)
+
+// Channel settings
+type (
+	ChannelSettingsText struct {
+		Creating string `json:"creating"`
+		Editing  string `json:"editing"`
+		Quoting  string `json:"quoting"`
+		Deleting string `json:"deleting"`
+	}
+
+	ChannelSettings struct {
+		SpamAllowed bool `json:"spam_allowed"`
+
+		Status struct {
+			Delivered string `json:"delivered"`
+			Read      string `json:"read"`
+		} `json:"status"`
+
+		Text ChannelSettingsText `json:"text"`
 	}
 )
