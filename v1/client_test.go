@@ -293,9 +293,7 @@ func TestMgClient_Commands(t *testing.T) {
 
 func TestMgClient_CommandEditDelete(t *testing.T) {
 	c := client()
-	i, err := strconv.ParseUint(os.Getenv("MG_BOT_ID"), 10, 64)
 	req := CommandEditRequest{
-		BotID:       i,
 		Name:        "show_payment_types",
 		Description: "Get available payment types",
 	}
