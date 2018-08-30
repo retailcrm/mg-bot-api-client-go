@@ -1,6 +1,7 @@
-[![Build Status](https://img.shields.io/travis/retailcrm/mg-bot-api-client-go/master.svg?style=flat-square)](https://travis-ci.org/retailcrm/mg-bot-api-client-go)
+[![Build Status](https://img.shields.io/travis/retailcrm/mg-bot-api-client-go/master.svg?logo=travis&style=flat-square)](https://travis-ci.org/retailcrm/mg-bot-api-client-go)
 [![GitHub release](https://img.shields.io/github/release/retailcrm/mg-bot-api-client-go.svg?style=flat-square)](https://github.com/retailcrm/mg-bot-api-client-go/releases)
-[![GoLang version](https://img.shields.io/badge/GoLang-1.9%2C%201.10%2C%201.11-blue.svg?style=flat-square)](https://golang.org/dl/)
+[![GoLang version](https://img.shields.io/badge/go-1.8%2C%201.9%2C%201.10%2C%201.11-blue.svg?style=flat-square)](https://golang.org/dl/)
+[![Godoc reference](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/retailcrm/mg-bot-api-client-go)
 
 
 # retailCRM Message Gateway Bot API Go client
@@ -39,7 +40,3 @@ func main() {
     fmt.Printf("%v", data.MessageID)
 }
 ```
-
-## Documentation
-
-* [GoDoc](https://godoc.org/github.com/retailcrm/mg-bot-api-client-go)

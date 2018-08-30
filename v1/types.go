@@ -46,11 +46,11 @@ type (
 	}
 
 	ChannelsRequest struct {
-		ID     uint64 `url:"id,omitempty"`
-		Types  string `url:"types,omitempty"`
-		Active uint8  `url:"active,omitempty"`
-		Since  string `url:"since,omitempty"`
-		Until  string `url:"until,omitempty"`
+		ID     uint64   `url:"id,omitempty"`
+		Types  []string `url:"types,omitempty"`
+		Active uint8    `url:"active,omitempty"`
+		Since  string   `url:"since,omitempty"`
+		Until  string   `url:"until,omitempty"`
 	}
 
 	UsersRequest struct {
