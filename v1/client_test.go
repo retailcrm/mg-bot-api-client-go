@@ -1,10 +1,12 @@
 package v1
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
 	"strconv"
+	"strings"
 	"testing"
 
 	"github.com/joho/godotenv"
@@ -313,4 +315,20 @@ func TestMgClient_CommandEditDelete(t *testing.T) {
 
 	assert.NoError(t, err)
 	t.Logf("%v", d)
+}
+
+func TestMgClient_WsMeta(t *testing.T) {
+	c := client()
+	events := []string{"user_updated", "user_join_chat"}
+	url, headers, err := c.WsMeta(events)
+
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+
+	resUrl := fmt.Sprintf("%s%s%s%s", c.URL, prefix, "/ws?events=", strings.Join(events[:], ","))
+	resToken := c.Token
+
+	assert.Equal(t, resUrl, url)
+	assert.Equal(t, resToken, headers["X-Bot-Token"][0])
 }

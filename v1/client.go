@@ -662,19 +662,22 @@ func (c *MgClient) CommandDelete(request string) (map[string]interface{}, int, e
 
 // WsMeta let you receive url & headers to open web socket connection
 func (c *MgClient) WsMeta(events []string) (string, http.Header, error) {
-	url := fmt.Sprintf("%s%s%s%s", c.URL, prefix, "/ws?events=", strings.Join(events[:], ","))
-	headers := http.Header{}
-	headers.Add("x-bot-token", c.Token)
-
-	if url == "" {
-		err := errors.New("empty WS URL")
-		return url, headers, err
-	}
+	var url string
 
 	if len(events) < 1 {
 		err := errors.New("events list must not be empty")
-		return url, headers, err
+		return url, nil, err
 	}
+
+	url = fmt.Sprintf("%s%s%s%s", c.URL, prefix, "/ws?events=", strings.Join(events[:], ","))
+
+	if url == "" {
+		err := errors.New("empty WS URL")
+		return url, nil, err
+	}
+
+	headers := http.Header{}
+	headers.Add("x-bot-token", c.Token)
 
 	return url, headers, nil
 }
