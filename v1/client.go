@@ -659,6 +659,20 @@ func (c *MgClient) CommandDelete(request string) (map[string]interface{}, int, e
 	return resp, status, err
 }
 
+// Ws let you receive url & headers to open web socket connection
+func (c *MgClient) Ws() (string, http.Header, error) {
+	url := fmt.Sprintf("%s%s%s", c.URL, prefix, "/ws")
+	headers := http.Header{}
+	headers.Add("x-bot-token", c.Token)
+
+	if url == "" {
+		err := errors.New("empty WS URL")
+		return url, headers, err
+	}
+
+	return url, headers, nil
+}
+
 func (c *MgClient) Error(info []byte) error {
 	var data map[string]interface{}
 

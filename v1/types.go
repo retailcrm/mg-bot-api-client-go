@@ -22,6 +22,18 @@ const (
 	MessageScopePublic  string = "public"
 	MessageScopePrivate string = "private"
 
+	WsEventMessageNew     string = "message_new"
+	WsEventMessageUpdated string = "message_updated"
+	WsEventMessageDeleted string = "message_deleted"
+	WsEventDialogOpened   string = "dialog_opened"
+	WsEventDialogClosed   string = "dialog_closed"
+	WsEventDialogAssing   string = "dialog_assign"
+	WsEventChatCreated    string = "chat_created"
+	WsEventChatUpdated    string = "chat_updated"
+	WsEventUserJoined     string = "user_joined_chat"
+	WsEventUserLeave      string = "user_left_chat"
+	WsEventUserUpdated    string = "user_updated"
+
 	ChannelFeatureNone    string = "none"
 	ChannelFeatureReceive string = "receive"
 	ChannelFeatureSend    string = "send"
@@ -267,6 +279,20 @@ type (
 		Description string `json:"description"`
 		CreatedAt   string `json:"created_at"`
 		UpdatedAt   string `json:"updated_at,omitempty"`
+	}
+)
+
+// WS event types
+type (
+	WsEvent struct {
+		Type  string      `json:"type"`
+		Meta  EventMeta   `json:"meta"`
+		AppID uint        `json:"app_id"`
+		Data  interface{} `json:"data"`
+	}
+
+	EventMeta struct {
+		Timestamp int64 `json:"timestamp"`
 	}
 )
 
