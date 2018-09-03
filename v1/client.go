@@ -669,7 +669,7 @@ func (c *MgClient) WsMeta(events []string) (string, http.Header, error) {
 		return url, nil, err
 	}
 
-	url = fmt.Sprintf("%s%s%s%s", c.URL, prefix, "/ws?events=", strings.Join(events[:], ","))
+	url = fmt.Sprintf("%s%s%s%s", strings.Replace(c.URL, "https", "ws", 1), prefix, "/ws?events=", strings.Join(events[:], ","))
 
 	if url == "" {
 		err := errors.New("empty WS URL")
