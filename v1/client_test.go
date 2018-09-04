@@ -326,7 +326,7 @@ func TestMgClient_WsMeta(t *testing.T) {
 		t.Errorf("%v", err)
 	}
 
-	resUrl := fmt.Sprintf("%s%s%s%s", strings.Replace(c.URL, "https", "ws", 1), prefix, "/ws?events=", strings.Join(events[:], ","))
+	resUrl := fmt.Sprintf("%s%s%s%s", strings.Replace(c.URL, "https", "wss", 1), prefix, "/ws?events=", strings.Join(events[:], ","))
 	resToken := c.Token
 
 	assert.Equal(t, resUrl, url)

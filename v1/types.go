@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"encoding/json"
 	"net/http"
 )
 
@@ -285,10 +286,10 @@ type (
 // WS event types
 type (
 	WsEvent struct {
-		Type  string      `json:"type"`
-		Meta  EventMeta   `json:"meta"`
-		AppID uint        `json:"app_id"`
-		Data  interface{} `json:"data"`
+		Type  string          `json:"type"`
+		Meta  EventMeta       `json:"meta"`
+		AppID uint            `json:"app_id"`
+		Data  json.RawMessage `json:"data"`
 	}
 
 	EventMeta struct {
@@ -370,6 +371,33 @@ type (
 		CreatedAt   string
 		UpdatedAt   string
 	}
+
+	Chat struct {
+		ID           uint64   `json:"id"`
+		Avatar       string   `json:"avatar"`
+		Name         string   `json:"name"`
+		Channel      *Channel `json:"channel,omitempty"`
+		Members      []Member `json:"members"`
+		Customer     *UserRef `json:"customer"`
+		AuthorID     uint64   `json:"author_id"`
+		LastMessage  *Message `json:"last_message"`
+		LastActivity string   `json:"last_activity"`
+	}
+
+	Member struct {
+		IsAuthor bool     `json:"is_author"`
+		State    string   `json:"state"`
+		User     *UserRef `json:"user"`
+	}
+
+	Dialog struct {
+		ID              uint64  `json:"id"`
+		BeginMessageID  *uint64 `json:"begin_message_id"`
+		EndingMessageID *uint64 `json:"ending_message_id"`
+		Chat            *Chat   `json:"chat"`
+		CreatedAt       string  `json:"created_at"`
+		ClosedAt        *string `json:"closed_at"`
+	}
 )
 
 // Channel settings
@@ -390,5 +418,60 @@ type (
 		} `json:"status"`
 
 		Text ChannelSettingsText `json:"text"`
+	}
+)
+
+// Events
+type (
+	WsEventMessageNewData struct {
+		Message *Message `json:"message"`
+	}
+
+	WsEventMessageUpdatedData struct {
+		Message *Message `json:"message"`
+	}
+
+	WsEventMessageDeletedData struct {
+		Message *Message `json:"message"`
+	}
+
+	WsEventChatCreatedData struct {
+		Chat *Chat `json:"chat"`
+	}
+
+	WsEventChatUpdatedData struct {
+		Chat *Chat `json:"chat"`
+	}
+
+	WsEventDialogOpenedData struct {
+		Dialog *Dialog `json:"dialog"`
+	}
+
+	WsEventDialogClosedData struct {
+		Dialog *Dialog `json:"dialog"`
+	}
+
+	WsEventUserLeaveData struct {
+		Reason string `json:"reason"`
+		Chat   struct {
+			ID uint64 `json:"id"`
+		} `json:"chat"`
+		User struct {
+			ID uint64 `json:"id"`
+		} `json:"user"`
+	}
+
+	WsEventUserUpdatedData struct {
+		*UserRef
+	}
+
+	WsEventDialogAssignData struct {
+		Dialog *Dialog `json:"dialog"`
+		Chat   *Chat   `json:"chat"`
+	}
+
+	EventUserJoinedChatData struct {
+		Chat *Chat    `json:"chat"`
+		User *UserRef `json:"user"`
 	}
 )
