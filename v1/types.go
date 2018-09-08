@@ -39,6 +39,9 @@ const (
 	ChannelFeatureReceive string = "receive"
 	ChannelFeatureSend    string = "send"
 	ChannelFeatureBoth    string = "both"
+
+	BotRoleDistributor string = "distributor"
+	BotRoleResponsible string = "responsible"
 )
 
 // MgClient type
@@ -54,6 +57,7 @@ type (
 	BotsRequest struct {
 		ID     uint64 `url:"id,omitempty"`
 		Active uint8  `url:"active,omitempty"`
+		Role   string `url:"role,omitempty"`
 		Since  string `url:"since,omitempty"`
 		Until  string `url:"until,omitempty"`
 	}
@@ -143,8 +147,9 @@ type (
 	}
 
 	InfoRequest struct {
-		Name   string `url:"name,omitempty" json:"name"`
-		Avatar string `url:"avatar_url,omitempty" json:"avatar_url"`
+		Name   string   `url:"name,omitempty" json:"name"`
+		Avatar string   `url:"avatar_url,omitempty" json:"avatar_url"`
+		Roles  []string `url:"roles,omitempty" json:"roles"`
 	}
 
 	CommandsRequest struct {
@@ -163,15 +168,16 @@ type (
 // Response types
 type (
 	BotsResponseItem struct {
-		ID            uint64 `json:"id"`
-		Name          string `json:"name"`
-		ClientID      string `json:"client_id,omitempty"`
-		AvatarUrl     string `json:"avatar_url,omitempty"`
-		CreatedAt     string `json:"created_at,omitempty"`
-		UpdatedAt     string `json:"updated_at,omitempty"`
-		DeactivatedAt string `json:"deactivated_at,omitempty"`
-		IsActive      bool   `json:"is_active"`
-		IsSelf        bool   `json:"is_self"`
+		ID            uint64   `json:"id"`
+		Name          string   `json:"name"`
+		ClientID      string   `json:"client_id,omitempty"`
+		AvatarUrl     string   `json:"avatar_url,omitempty"`
+		CreatedAt     string   `json:"created_at,omitempty"`
+		UpdatedAt     string   `json:"updated_at,omitempty"`
+		DeactivatedAt string   `json:"deactivated_at,omitempty"`
+		IsActive      bool     `json:"is_active"`
+		IsSelf        bool     `json:"is_self"`
+		Roles         []string `json:"roles,omitempty"`
 	}
 
 	ChannelResponseItem struct {
