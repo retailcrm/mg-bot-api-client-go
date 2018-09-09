@@ -148,7 +148,7 @@ type (
 
 	InfoRequest struct {
 		Name   string   `url:"name,omitempty" json:"name"`
-		Avatar string   `url:"avatar_url,omitempty" json:"avatar_url"`
+		Avatar string   `url:"avatar_url,omitempty" json:"avatar_url,omitempty"`
 		Roles  []string `url:"roles,omitempty" json:"roles"`
 	}
 
