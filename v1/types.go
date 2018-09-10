@@ -183,6 +183,7 @@ type (
 	ChannelResponseItem struct {
 		ID            uint64          `json:"id"`
 		Type          string          `json:"type"`
+		Name          string          `json:"name"`
 		Settings      ChannelSettings `json:"settings"`
 		CreatedAt     string          `json:"created_at"`
 		UpdatedAt     string          `json:"updated_at"`
@@ -355,6 +356,7 @@ type (
 		ID          uint64          `json:"id"`
 		TransportID uint64          `json:"transport_id"`
 		Type        string          `json:"type"`
+		Name        string          `json:"name"`
 		Supports    ChannelSupports `json:"supports"`
 	}
 
