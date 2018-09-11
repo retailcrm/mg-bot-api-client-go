@@ -57,6 +57,7 @@ type (
 	BotsRequest struct {
 		ID     uint64 `url:"id,omitempty"`
 		Active uint8  `url:"active,omitempty"`
+		Self   uint8  `url:"self,omitempty"`
 		Role   string `url:"role,omitempty"`
 		Since  string `url:"since,omitempty"`
 		Until  string `url:"until,omitempty"`
