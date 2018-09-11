@@ -399,12 +399,13 @@ type (
 	}
 
 	Dialog struct {
-		ID              uint64  `json:"id"`
-		BeginMessageID  *uint64 `json:"begin_message_id"`
-		EndingMessageID *uint64 `json:"ending_message_id"`
-		Chat            *Chat   `json:"chat"`
-		CreatedAt       string  `json:"created_at"`
-		ClosedAt        *string `json:"closed_at"`
+		ID              uint64       `json:"id"`
+		BeginMessageID  *uint64      `json:"begin_message_id"`
+		EndingMessageID *uint64      `json:"ending_message_id"`
+		Chat            *Chat        `json:"chat"`
+		Responsible     *Responsible `json:"responsible"`
+		CreatedAt       string       `json:"created_at"`
+		ClosedAt        *string      `json:"closed_at"`
 	}
 )
 
