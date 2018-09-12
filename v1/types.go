@@ -308,29 +308,31 @@ type (
 // Single entity types
 type (
 	Message struct {
-		ID     uint64 `json:"id"`
-		Time   string `json:"time"`
-		Type   string `json:"type"`
-		ChatID uint64 `json:"chat_id"`
-		IsRead bool   `json:"is_read"`
-		Status string `json:"status"`
-		TextMessage
-		SystemMessage
+		ID      uint64          `json:"id"`
+		Time    string          `json:"time"`
+		Type    string          `json:"type"`
+		Scope   string          `json:"scope"`
+		ChatID  uint64          `json:"chat_id"`
+		IsRead  bool            `json:"is_read"`
+		IsEdit  bool            `json:"is_edit"`
+		Status  string          `json:"status"`
+		From    *UserRef        `json:"from"`
+		Product *MessageProduct `json:"product,omitempty"`
+		Order   *MessageOrder   `json:"order,omitempty"`
+		*TextMessage
+		*SystemMessage
 	}
 
 	TextMessage struct {
-		Scope   string       `json:"scope"`
-		Content string       `json:"content"`
-		From    UserRef      `json:"from"`
-		Quote   QuoteMessage `json:"quote"`
-		IsEdit  bool         `json:"is_edit"`
-		Actions []string     `json:"actions"`
+		Content string        `json:"content"`
+		Quote   *QuoteMessage `json:"quote"`
+		Actions []string      `json:"actions"`
 	}
 
 	SystemMessage struct {
-		Action string              `json:"action"`
-		Dialog SystemMessageDialog `json:"dialog,omitempty"`
-		User   UserRef             `json:"user,omitempty"`
+		Action string               `json:"action"`
+		Dialog *SystemMessageDialog `json:"dialog,omitempty"`
+		User   *UserRef             `json:"user,omitempty"`
 	}
 
 	SystemMessageDialog struct {
@@ -338,19 +340,61 @@ type (
 	}
 
 	QuoteMessage struct {
-		ID      uint64  `json:"id"`
-		Content string  `json:"content"`
-		Time    string  `json:"time"`
-		From    UserRef `json:"from"`
+		ID      uint64   `json:"id"`
+		Content string   `json:"content"`
+		Time    string   `json:"time"`
+		From    *UserRef `json:"from"`
+	}
+
+	MessageProduct struct {
+		ID       uint64                `json:"id"`
+		Name     string                `json:"name"`
+		Article  string                `json:"article,omitempty"`
+		Url      string                `json:"url,omitempty"`
+		Img      string                `json:"img,omitempty"`
+		Cost     *MessageOrderCost     `json:"cost,omitempty"`
+		Quantity *MessageOrderQuantity `json:"quantity,omitempty"`
+	}
+
+	MessageOrder struct {
+		Number string              `json:"number"`
+		Url    string              `json:"url,omitempty"`
+		Date   string              `json:"date,omitempty"`
+		Cost   *MessageOrderCost   `json:"cost,omitempty"`
+		Status *MessageOrderStatus `json:"status,omitempty"`
+		Items  []MessageOrderItem  `json:"items,omitempty"`
+	}
+
+	MessageOrderStatus struct {
+		Code string `json:"code,omitempty"`
+		Name string `json:"name,omitempty"`
+	}
+
+	MessageOrderItem struct {
+		Name     string `json:"name,omitempty"`
+		Url      string `json:"url,omitempty"`
+		Quantity string `json:"quantity,omitempty"`
+		Price    string `json:"price,omitempty"`
+	}
+
+	MessageOrderCost struct {
+		Value    float32 `json:"value,omitempty"`
+		Currency string  `json:"currency"`
+	}
+
+	MessageOrderQuantity struct {
+		Value float32 `json:"value"`
+		Unit  string  `json:"unit"`
 	}
 
 	UserRef struct {
-		ID     uint64 `json:"id"`
-		Avatar string `json:"avatar"`
-		Type   string `json:"type"`
-		Name   string `json:"name"`
-		Phone  string `json:"phone,omitempty"`
-		Email  string `json:"email,omitempty"`
+		ID        uint64 `json:"id"`
+		Avatar    string `json:"avatar"`
+		Type      string `json:"type"`
+		FirstName string `json:"first_name,omitempty"`
+		LastName  string `json:"last_name,omitempty"`
+		Phone     string `json:"phone,omitempty"`
+		Email     string `json:"email,omitempty"`
 	}
 
 	Channel struct {
