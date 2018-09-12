@@ -347,20 +347,20 @@ type (
 	}
 
 	MessageProduct struct {
-		ID       uint64 `json:"id"`
-		Name     string `json:"name"`
-		Article  string `json:"article,omitempty"`
-		Url      string `json:"url,omitempty"`
-		Img      string `json:"img,omitempty"`
-		Cost     string `json:"cost,omitempty"`
-		Quantity string `json:"quantity,omitempty"`
+		ID       uint64                `json:"id"`
+		Name     string                `json:"name"`
+		Article  string                `json:"article,omitempty"`
+		Url      string                `json:"url,omitempty"`
+		Img      string                `json:"img,omitempty"`
+		Cost     *MessageOrderCost     `json:"cost,omitempty"`
+		Quantity *MessageOrderQuantity `json:"quantity,omitempty"`
 	}
 
 	MessageOrder struct {
 		Number string              `json:"number"`
 		Url    string              `json:"url,omitempty"`
 		Date   string              `json:"date,omitempty"`
-		Cost   string              `json:"cost,omitempty"`
+		Cost   *MessageOrderCost   `json:"cost,omitempty"`
 		Status *MessageOrderStatus `json:"status,omitempty"`
 		Items  []MessageOrderItem  `json:"items,omitempty"`
 	}
@@ -375,6 +375,16 @@ type (
 		Url      string `json:"url,omitempty"`
 		Quantity string `json:"quantity,omitempty"`
 		Price    string `json:"price,omitempty"`
+	}
+
+	MessageOrderCost struct {
+		Value    float32 `json:"value,omitempty"`
+		Currency string  `json:"currency"`
+	}
+
+	MessageOrderQuantity struct {
+		Value float32 `json:"value"`
+		Unit  string  `json:"unit"`
 	}
 
 	UserRef struct {
