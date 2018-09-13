@@ -191,10 +191,11 @@ func TestMgClient_Messages(t *testing.T) {
 	}
 }
 
-func TestMgClient_MessageSend(t *testing.T) {
+func TestMgClient_MessageSendText(t *testing.T) {
 	c := client()
 	i, err := strconv.ParseUint(os.Getenv("MG_BOT_CHAT"), 10, 64)
 	message := MessageSendRequest{
+		Type:    MsgTypeText,
 		Scope:   "public",
 		Content: "test",
 		ChatID:  i,
@@ -208,11 +209,42 @@ func TestMgClient_MessageSend(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotEmpty(t, data.MessageID)
 }
+func TestMgClient_MessageSendProduct(t *testing.T) {
+	c := client()
+
+	msg, _, err := c.MessageSend(MessageSendRequest{
+		Type:   MsgTypeProduct,
+		ChatID: 5,
+		Scope:  "public",
+		Product: &MessageProduct{
+			ID:      1,
+			Name:    "Some Product",
+			Article: "Art-111",
+			Url:     "https://example.com",
+			Img:     "http://example.com/pic.jpg",
+			Cost: &MessageOrderCost{
+				Value:    29900,
+				Currency: "rub",
+			},
+			Quantity: &MessageOrderQuantity{
+				Value: 1,
+			},
+		},
+	})
+
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+
+	assert.NoError(t, err)
+	t.Logf("%v", msg)
+}
 
 func TestMgClient_MessageEdit(t *testing.T) {
 	c := client()
 	i, err := strconv.ParseUint(os.Getenv("MG_BOT_CHAT"), 10, 64)
 	message := MessageSendRequest{
+		Type:    MsgTypeText,
 		Scope:   "public",
 		Content: "test",
 		ChatID:  i,
@@ -243,6 +275,7 @@ func TestMgClient_MessageDelete(t *testing.T) {
 	c := client()
 	i, err := strconv.ParseUint(os.Getenv("MG_BOT_CHAT"), 10, 64)
 	message := MessageSendRequest{
+		Type:    MsgTypeText,
 		Scope:   "public",
 		Content: "test",
 		ChatID:  i,
