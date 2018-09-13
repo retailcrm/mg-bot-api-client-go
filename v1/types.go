@@ -380,10 +380,10 @@ type (
 	}
 
 	MessageOrderItem struct {
-		Name     string `json:"name,omitempty"`
-		Url      string `json:"url,omitempty"`
-		Quantity string `json:"quantity,omitempty"`
-		Price    string `json:"price,omitempty"`
+		Name     string                `json:"name,omitempty"`
+		Url      string                `json:"url,omitempty"`
+		Quantity *MessageOrderQuantity `json:"quantity,omitempty"`
+		Price    *MessageOrderCost     `json:"price,omitempty"`
 	}
 
 	MessageOrderCost struct {
