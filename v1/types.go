@@ -42,6 +42,12 @@ const (
 
 	BotRoleDistributor string = "distributor"
 	BotRoleResponsible string = "responsible"
+
+	MsgTypeText    string = "text"
+	MsgTypeSystem  string = "system"
+	MsgTypeCommand string = "command"
+	MsgTypeOrder   string = "order"
+	MsgTypeProduct string = "product"
 )
 
 // MgClient type
@@ -136,10 +142,13 @@ type (
 	}
 
 	MessageSendRequest struct {
-		Content        string `url:"content,omitempty" json:"content"`
-		Scope          string `url:"scope,omitempty" json:"scope"`
-		ChatID         uint64 `url:"chat_id,omitempty" json:"chat_id"`
-		QuoteMessageId uint64 `url:"quote_message_id,omitempty" json:"quote_message_id"`
+		Type           string          `url:"type,omitempty" json:"type"`
+		Content        string          `url:"content,omitempty" json:"content"`
+		Product        *MessageProduct `url:"product,omitempty" json:"product"`
+		Order          *MessageOrder   `url:"order,omitempty" json:"order"`
+		Scope          string          `url:"scope,omitempty" json:"scope"`
+		ChatID         uint64          `url:"chat_id,omitempty" json:"chat_id"`
+		QuoteMessageId uint64          `url:"quote_message_id,omitempty" json:"quote_message_id"`
 	}
 
 	MessageEditRequest struct {
@@ -391,6 +400,7 @@ type (
 		ID        uint64 `json:"id"`
 		Avatar    string `json:"avatar"`
 		Type      string `json:"type"`
+		Name      string `json:"name"`
 		FirstName string `json:"first_name,omitempty"`
 		LastName  string `json:"last_name,omitempty"`
 		Phone     string `json:"phone,omitempty"`
