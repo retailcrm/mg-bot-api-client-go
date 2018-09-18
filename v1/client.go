@@ -300,6 +300,23 @@ func (c *MgClient) Dialogs(request DialogsRequest) ([]DialogResponseItem, int, e
 	return resp, status, err
 }
 
+// DialogAssign allows to assign dialog to Bot or User
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.DialogAssign(DialogAssignRequest{DialogID: 1, UserID: 6})
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	fmt.Printf("%v %v\n", data.Responsible, data.LeftUserID )
 func (c *MgClient) DialogAssign(request DialogAssignRequest) (DialogAssignResponse, int, error) {
 	var resp DialogAssignResponse
 	outgoing, _ := json.Marshal(&request)

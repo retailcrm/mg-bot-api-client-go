@@ -28,7 +28,7 @@ const (
 	WsEventMessageDeleted string = "message_deleted"
 	WsEventDialogOpened   string = "dialog_opened"
 	WsEventDialogClosed   string = "dialog_closed"
-	WsEventDialogAssing   string = "dialog_assign"
+	WsEventDialogAssign   string = "dialog_assign"
 	WsEventChatCreated    string = "chat_created"
 	WsEventChatUpdated    string = "chat_updated"
 	WsEventUserJoined     string = "user_joined_chat"
