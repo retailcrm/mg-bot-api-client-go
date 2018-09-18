@@ -110,27 +110,27 @@ type (
 	}
 
 	DialogsRequest struct {
-		ID        uint64 `url:"id,omitempty"`
-		ChatID    string `url:"chat_id,omitempty" json:"chat_id"`
-		ManagerID string `url:"manager_id,omitempty" json:"manager_id"`
-		BotID     string `url:"bot_id,omitempty" json:"bot_id"`
-		Assign    uint8  `url:"assign,omitempty"`
-		Active    uint8  `url:"active,omitempty"`
-		Since     string `url:"since,omitempty"`
-		Until     string `url:"until,omitempty"`
+		ID     uint64 `url:"id,omitempty"`
+		ChatID string `url:"chat_id,omitempty" json:"chat_id"`
+		UserID string `url:"user_id,omitempty" json:"user_id"`
+		BotID  string `url:"bot_id,omitempty" json:"bot_id"`
+		Assign uint8  `url:"assign,omitempty"`
+		Active uint8  `url:"active,omitempty"`
+		Since  string `url:"since,omitempty"`
+		Until  string `url:"until,omitempty"`
 	}
 
 	DialogAssignRequest struct {
-		DialogID  uint64 `url:"dialog_id,omitempty" json:"dialog_id"`
-		ManagerID uint64 `url:"manager_id,omitempty" json:"manager_id"`
-		BotID     uint64 `url:"bot_id,omitempty" json:"bot_id"`
+		DialogID uint64 `url:"dialog_id,omitempty" json:"dialog_id"`
+		UserID   uint64 `url:"user_id,omitempty" json:"user_id"`
+		BotID    uint64 `url:"bot_id,omitempty" json:"bot_id"`
 	}
 
 	MessagesRequest struct {
 		ID          uint64 `url:"id,omitempty"`
 		ChatID      uint64 `url:"chat_id,omitempty" json:"chat_id"`
 		DialogID    uint64 `url:"dialog_id,omitempty" json:"dialog_id"`
-		ManagerID   uint64 `url:"manager_id,omitempty" json:"manager_id"`
+		UserID      uint64 `url:"user_id,omitempty" json:"user_id"`
 		CustomerID  uint64 `url:"customer_id,omitempty" json:"customer_id"`
 		BotID       uint64 `url:"bot_id,omitempty" json:"bot_id"`
 		ChannelID   uint64 `url:"channel_id,omitempty" json:"channel_id"`
@@ -274,7 +274,7 @@ type (
 	DialogAssignResponse struct {
 		Responsible         Responsible `json:"responsible"`
 		PreviousResponsible Responsible `json:"previous_responsible,omitempty"`
-		LeftManagerID       uint64      `json:"left_manager_id,omitempty"`
+		LeftUserID          uint64      `json:"left_user_id,omitempty"`
 		IsReAssign          bool        `json:"is_reassign"`
 	}
 
