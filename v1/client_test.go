@@ -157,7 +157,7 @@ func TestMgClient_DialogAssign(t *testing.T) {
 	c := client()
 	i, err := strconv.ParseUint(os.Getenv("MG_BOT_DIALOG"), 10, 64)
 	m, err := strconv.ParseUint(os.Getenv("MG_BOT_USER"), 10, 64)
-	req := DialogAssignRequest{DialogID: i, ManagerID: m}
+	req := DialogAssignRequest{DialogID: i, UserID: m}
 
 	_, status, err := c.DialogAssign(req)
 

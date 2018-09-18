@@ -361,7 +361,7 @@ func (c *MgClient) DialogClose(request uint64) (map[string]interface{}, int, err
 //
 // 	var client = v1.New("https://demo.url", "09jIJ")
 //
-// 	data, status, err := client.Messages(MessagesRequest{ManagerID:5})
+// 	data, status, err := client.Messages(MessagesRequest{UserID:5})
 //
 // 	if err != nil {
 // 		fmt.Printf("%v", err)
