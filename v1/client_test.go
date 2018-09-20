@@ -3,16 +3,27 @@ package v1
 import (
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"os"
 	"strconv"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/joho/godotenv"
 
 	"github.com/stretchr/testify/assert"
 )
+
+const (
+	letterBytes   = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+	letterIdxBits = 6                    // 6 bits to represent a letter index
+	letterIdxMask = 1<<letterIdxBits - 1 // All 1-bits, as many as letterIdxBits
+	letterIdxMax  = 63 / letterIdxBits   // # of letter indices fitting in 63 bits
+)
+
+var src = rand.NewSource(time.Now().UnixNano())
 
 func TestMain(m *testing.M) {
 	if os.Getenv("DEVELOPER_NODE") == "1" {
@@ -129,7 +140,6 @@ func TestMgClient_Members(t *testing.T) {
 	}
 
 	assert.NoError(t, err)
-	assert.NotEmpty(t, data)
 
 	for _, member := range data {
 		assert.NotEmpty(t, member.ChatID)
@@ -209,6 +219,7 @@ func TestMgClient_MessageSendText(t *testing.T) {
 	assert.NoError(t, err)
 	assert.NotEmpty(t, data.MessageID)
 }
+
 func TestMgClient_MessageSendProduct(t *testing.T) {
 	c := client()
 
@@ -238,6 +249,60 @@ func TestMgClient_MessageSendProduct(t *testing.T) {
 
 	assert.NoError(t, err)
 	t.Logf("%v", msg)
+}
+
+func TestMgClient_MessageSendOrder(t *testing.T) {
+	c := client()
+
+	msg, _, err := c.MessageSend(MessageSendRequest{
+		Type:   MsgTypeOrder,
+		ChatID: 5,
+		Scope:  "public",
+		Order: &MessageOrder{
+			Number: RandStringBytesMaskImprSrc(7),
+			Cost: &MessageOrderCost{
+				Value:    29900,
+				Currency: MsgCurrencyRub,
+			},
+			Status: &MessageOrderStatus{
+				Code: MsgOrderStatusCodeNew,
+				Name: "Новый",
+			},
+			Delivery: &MessageOrderDelivery{
+				Name:    "Курьерская доставка",
+				Address: "г. Москва, Проспект Мира, 9",
+				Amount: &MessageOrderCost{
+					Value:    1100,
+					Currency: MsgCurrencyRub,
+				},
+			},
+			Items: []MessageOrderItem{
+				{
+					Name: "iPhone 6",
+					Price: &MessageOrderCost{
+						Value:    29900,
+						Currency: MsgCurrencyRub,
+					},
+					Quantity: &MessageOrderQuantity{
+						Value: 1,
+					},
+				},
+			},
+		},
+	})
+
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+
+	assert.NoError(t, err)
+	t.Logf("%v", msg)
+}
+
+func TestMgClient_RandomStringGenerator(t *testing.T) {
+	rnd := RandStringBytesMaskImprSrc(7)
+	assert.NotEmpty(t, rnd)
+	t.Logf("%v", rnd)
 }
 
 func TestMgClient_MessageEdit(t *testing.T) {
@@ -364,4 +429,22 @@ func TestMgClient_WsMeta(t *testing.T) {
 
 	assert.Equal(t, resUrl, url)
 	assert.Equal(t, resToken, headers["X-Bot-Token"][0])
+}
+
+func RandStringBytesMaskImprSrc(n int) string {
+	b := make([]byte, n)
+	// A src.Int63() generates 63 random bits, enough for letterIdxMax characters!
+	for i, cache, remain := n-1, src.Int63(), letterIdxMax; i >= 0; {
+		if remain == 0 {
+			cache, remain = src.Int63(), letterIdxMax
+		}
+		if idx := int(cache & letterIdxMask); idx < len(letterBytes) {
+			b[i] = letterBytes[idx]
+			i--
+		}
+		cache >>= letterIdxBits
+		remain--
+	}
+
+	return string(b)
 }
