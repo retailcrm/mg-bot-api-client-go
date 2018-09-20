@@ -48,6 +48,20 @@ const (
 	MsgTypeCommand string = "command"
 	MsgTypeOrder   string = "order"
 	MsgTypeProduct string = "product"
+
+	MsgOrderStatusCodeNew        = "new"
+	MsgOrderStatusCodeApproval   = "approval"
+	MsgOrderStatusCodeAssembling = "assembling"
+	MsgOrderStatusCodeDelivery   = "delivery"
+	MsgOrderStatusCodeComplete   = "complete"
+	MsgOrderStatusCodeCancel     = "cancel"
+
+	MsgCurrencyRub = "rub"
+	MsgCurrencyUah = "uah"
+	MsgCurrencyByr = "byr"
+	MsgCurrencyKzt = "kzt"
+	MsgCurrencyUsd = "usd"
+	MsgCurrencyEur = "eur"
 )
 
 // MgClient type
@@ -366,12 +380,14 @@ type (
 	}
 
 	MessageOrder struct {
-		Number string              `json:"number"`
-		Url    string              `json:"url,omitempty"`
-		Date   string              `json:"date,omitempty"`
-		Cost   *MessageOrderCost   `json:"cost,omitempty"`
-		Status *MessageOrderStatus `json:"status,omitempty"`
-		Items  []MessageOrderItem  `json:"items,omitempty"`
+		Number   string                `json:"number"`
+		Url      string                `json:"url,omitempty"`
+		Date     string                `json:"date,omitempty"`
+		Cost     *MessageOrderCost     `json:"cost,omitempty"`
+		Status   *MessageOrderStatus   `json:"status,omitempty"`
+		Delivery *MessageOrderDelivery `json:"delivery"`
+		Payments []MessageOrderPayment `json:"payment"`
+		Items    []MessageOrderItem    `json:"items,omitempty"`
 	}
 
 	MessageOrderStatus struct {
@@ -394,6 +410,23 @@ type (
 	MessageOrderQuantity struct {
 		Value float32 `json:"value"`
 		Unit  string  `json:"unit"`
+	}
+
+	MessageOrderPayment struct {
+		Name   string                     `json:"name"`
+		Status *MessageOrderPaymentStatus `json:"status"`
+		Amount *MessageOrderCost          `json:"amount"`
+	}
+
+	MessageOrderPaymentStatus struct {
+		Name  string `json:"name"`
+		Payed bool   `json:"payed"`
+	}
+
+	MessageOrderDelivery struct {
+		Name    string            `json:"name"`
+		Amount  *MessageOrderCost `json:"amount"`
+		Address string            `json:"address"`
 	}
 
 	UserRef struct {
