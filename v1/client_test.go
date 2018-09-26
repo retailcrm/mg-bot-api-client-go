@@ -271,7 +271,7 @@ func TestMgClient_MessageSendOrder(t *testing.T) {
 			Delivery: &MessageOrderDelivery{
 				Name:    "Курьерская доставка",
 				Address: "г. Москва, Проспект Мира, 9",
-				Amount: &MessageOrderCost{
+				Price: &MessageOrderCost{
 					Value:    1100,
 					Currency: MsgCurrencyRub,
 				},
@@ -279,6 +279,8 @@ func TestMgClient_MessageSendOrder(t *testing.T) {
 			Items: []MessageOrderItem{
 				{
 					Name: "iPhone 6",
+					Url:  "https://example.com/product.html",
+					Img:  "https://example.com/picture.png",
 					Price: &MessageOrderCost{
 						Value:    29900,
 						Currency: MsgCurrencyRub,

@@ -398,6 +398,7 @@ type (
 	MessageOrderItem struct {
 		Name     string                `json:"name,omitempty"`
 		Url      string                `json:"url,omitempty"`
+		Img      string                `json:"img,omitempty"`
 		Quantity *MessageOrderQuantity `json:"quantity,omitempty"`
 		Price    *MessageOrderCost     `json:"price,omitempty"`
 	}
@@ -425,8 +426,9 @@ type (
 
 	MessageOrderDelivery struct {
 		Name    string            `json:"name"`
-		Amount  *MessageOrderCost `json:"amount"`
+		Price   *MessageOrderCost `json:"price"`
 		Address string            `json:"address"`
+		Comment string            `json:"comment,omitempty"`
 	}
 
 	UserRef struct {
