@@ -34,6 +34,8 @@ const (
 	WsEventUserJoined     string = "user_joined_chat"
 	WsEventUserLeave      string = "user_left_chat"
 	WsEventUserUpdated    string = "user_updated"
+	WsCustomerUpdated     string = "customer_updated"
+	WsBotUpdated          string = "bot_updated"
 
 	ChannelFeatureNone    string = "none"
 	ChannelFeatureReceive string = "receive"
@@ -561,6 +563,14 @@ type (
 	}
 
 	WsEventUserUpdatedData struct {
+		*UserRef
+	}
+
+	WsEventCustomerUpdatedData struct {
+		*UserRef
+	}
+
+	WsEventBotUpdatedData struct {
 		*UserRef
 	}
 
