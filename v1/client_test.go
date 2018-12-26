@@ -12,7 +12,6 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-
 	"github.com/stretchr/testify/assert"
 )
 
@@ -42,7 +41,10 @@ var (
 )
 
 func client() *MgClient {
-	return New(mgURL, mgToken)
+	c := New(mgURL, mgToken)
+	c.Debug = true
+
+	return c
 }
 
 func TestMgClient_Bots(t *testing.T) {
@@ -197,7 +199,7 @@ func TestMgClient_Messages(t *testing.T) {
 	assert.NotEmpty(t, data)
 
 	for _, message := range data {
-		assert.NotEmpty(t, message.Content)
+		assert.NotEmpty(t, message.ID)
 	}
 }
 
@@ -431,6 +433,55 @@ func TestMgClient_WsMeta(t *testing.T) {
 
 	assert.Equal(t, resUrl, url)
 	assert.Equal(t, resToken, headers["X-Bot-Token"][0])
+}
+
+func TestMgClient_UploadFile(t *testing.T) {
+	c := client()
+
+	resp, err := http.Get("https://via.placeholder.com/300")
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+
+	defer resp.Body.Close()
+
+	data, status, err := c.UploadFile(resp.Body)
+
+	if status != http.StatusOK {
+		t.Errorf("%v", err)
+	}
+
+	t.Logf("File %+v is upload", data)
+}
+
+func TestMgClient_ImageMessages(t *testing.T) {
+	c := client()
+
+	uploadFileResponse, st, err := c.UploadFileByURL(UploadFileByUrlRequest{
+		Url: "https://via.placeholder.com/300",
+	})
+
+	if st != http.StatusOK {
+		t.Errorf("%v", err)
+	}
+
+	t.Logf("File %+v is upload", uploadFileResponse.ID)
+
+	i, err := strconv.ParseUint(os.Getenv("MG_BOT_CHAT"), 10, 64)
+	message := MessageSendRequest{
+		Type:   MsgTypeImage,
+		Scope:  MessageScopePublic,
+		Items:  []Item{{ID: uploadFileResponse.ID}},
+		ChatID: i,
+	}
+
+	data, status, err := c.MessageSend(message)
+	if err != nil {
+		t.Errorf("%d %v", status, err)
+	}
+
+	assert.NoError(t, err)
+	assert.NotEmpty(t, data.MessageID)
 }
 
 func RandStringBytesMaskImprSrc(n int) string {
