@@ -1,9 +1,11 @@
 package v1
 
 import (
+	"bytes"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"strings"
 	"time"
@@ -437,7 +439,7 @@ func (c *MgClient) MessageSend(request MessageSendRequest) (MessageSendResponse,
 	var resp MessageSendResponse
 	outgoing, _ := json.Marshal(&request)
 
-	data, status, err := c.PostRequest("/messages", []byte(outgoing))
+	data, status, err := c.PostRequest("/messages", bytes.NewBuffer(outgoing))
 	if err != nil {
 		return resp, status, err
 	}
@@ -671,6 +673,112 @@ func (c *MgClient) CommandDelete(request string) (map[string]interface{}, int, e
 	}
 
 	if status > http.StatusCreated || status < http.StatusOK {
+		return resp, status, c.Error(data)
+	}
+
+	return resp, status, err
+}
+
+// GetFile implement get file url
+//
+// Example:
+//
+// 	var client = v1.New("https://token.url", "cb8ccf05e38a47543ad8477d4999be73bff503ea6")
+//
+// 	data, status, err := client.GetFile("file_ID")
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+//	fmt.Printf("%s\n", data.ID)
+func (c *MgClient) GetFile(request string) (FullFileResponse, int, error) {
+	var resp FullFileResponse
+	var b []byte
+
+	data, status, err := c.GetRequest(fmt.Sprintf("/files/%s", request), b)
+
+	if err != nil {
+		return resp, status, err
+	}
+
+	if e := json.Unmarshal(data, &resp); e != nil {
+		return resp, status, e
+	}
+
+	if status != http.StatusOK {
+		return resp, status, c.Error(data)
+	}
+
+	return resp, status, err
+}
+
+// UploadFile upload file
+//
+// Example:
+//
+//	resp, err := http.Get("https://via.placeholder.com/300")
+//	if err != nil {
+//		fmt.Printf("%v", err)
+//	}
+//
+//	defer resp.Body.Close()
+//
+// 	var client = v1.New("https://token.url", "cb8ccf05e38a47543ad8477d4999be73bff503ea6")
+//
+// 	data, status, err := client.UploadFile(resp.Body)
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+//	fmt.Printf("%s\n%s", data.ID, status)
+func (c *MgClient) UploadFile(request io.Reader) (UploadFileResponse, int, error) {
+	var resp UploadFileResponse
+
+	data, status, err := c.PostRequest("/files/upload", request)
+	if err != nil {
+		return resp, status, err
+	}
+
+	if e := json.Unmarshal(data, &resp); e != nil {
+		return resp, status, e
+	}
+
+	if status != http.StatusOK {
+		return resp, status, c.Error(data)
+	}
+
+	return resp, status, err
+}
+
+// UploadFileByURL upload file by url
+//
+// Example:
+//
+// 	uploadFileResponse, st, err := c.UploadFileByURL(UploadFileByUrlRequest{
+// 		Url: "https://via.placeholder.com/300",
+// 	})
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+//	fmt.Printf("%s\n%s", uploadFileResponse.ID, status)
+func (c *MgClient) UploadFileByURL(request UploadFileByUrlRequest) (UploadFileResponse, int, error) {
+	var resp UploadFileResponse
+	outgoing, _ := json.Marshal(&request)
+
+	data, status, err := c.PostRequest("/files/upload_by_url", bytes.NewBuffer(outgoing))
+	if err != nil {
+		return resp, status, err
+	}
+
+	if e := json.Unmarshal(data, &resp); e != nil {
+		return resp, status, e
+	}
+
+	if status != http.StatusOK {
 		return resp, status, c.Error(data)
 	}
 

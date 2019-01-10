@@ -3,6 +3,7 @@ package v1
 import (
 	"encoding/json"
 	"net/http"
+	"time"
 )
 
 const (
@@ -50,6 +51,8 @@ const (
 	MsgTypeCommand string = "command"
 	MsgTypeOrder   string = "order"
 	MsgTypeProduct string = "product"
+	MsgTypeFile    string = "file"
+	MsgTypeImage   string = "image"
 
 	MsgOrderStatusCodeNew        = "new"
 	MsgOrderStatusCodeApproval   = "approval"
@@ -162,6 +165,7 @@ type (
 		Content        string          `url:"content,omitempty" json:"content"`
 		Product        *MessageProduct `url:"product,omitempty" json:"product"`
 		Order          *MessageOrder   `url:"order,omitempty" json:"order"`
+		Items          []Item          `url:"order,omitempty" json:"items"`
 		Scope          string          `url:"scope,omitempty" json:"scope"`
 		ChatID         uint64          `url:"chat_id,omitempty" json:"chat_id"`
 		QuoteMessageId uint64          `url:"quote_message_id,omitempty" json:"quote_message_id"`
@@ -188,6 +192,10 @@ type (
 	CommandEditRequest struct {
 		Name        string `url:"name,omitempty" json:"name"`
 		Description string `url:"description,omitempty" json:"description"`
+	}
+
+	UploadFileByUrlRequest struct {
+		Url string `json:"url"`
 	}
 )
 
@@ -313,6 +321,24 @@ type (
 		Description string `json:"description"`
 		CreatedAt   string `json:"created_at"`
 		UpdatedAt   string `json:"updated_at,omitempty"`
+	}
+
+	FullFileResponse struct {
+		ID   string `json:"id,omitempty"`
+		Type string `json:"type,omitempty"`
+		Size int    `json:"size,omitempty"`
+		Url  string `json:"url,omitempty"`
+	}
+
+	UploadFileResponse struct {
+		ID        string    `json:"id"`
+		Hash      string    `json:"hash"`
+		Type      string    `json:"type"`
+		Meta      FileMeta  `json:"meta"`
+		MimeType  string    `json:"mime_type"`
+		Size      int       `json:"size"`
+		Url       *string   `json:"source_url"`
+		CreatedAt time.Time `json:"created_at"`
 	}
 )
 
@@ -498,6 +524,16 @@ type (
 		Responsible     *Responsible `json:"responsible"`
 		CreatedAt       string       `json:"created_at"`
 		ClosedAt        *string      `json:"closed_at"`
+	}
+
+	FileMeta struct {
+		Width  *int `json:"width,omitempty"`
+		Height *int `json:"height,omitempty"`
+	}
+
+	Item struct {
+		ID      string `json:"id"`
+		Caption string `json:"caption"`
 	}
 )
 

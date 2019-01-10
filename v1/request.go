@@ -3,6 +3,7 @@ package v1
 import (
 	"bytes"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -21,11 +22,11 @@ func (c *MgClient) GetRequest(url string, parameters []byte) ([]byte, int, error
 }
 
 // PostRequest implements POST Request
-func (c *MgClient) PostRequest(url string, parameters []byte) ([]byte, int, error) {
+func (c *MgClient) PostRequest(url string, parameters io.Reader) ([]byte, int, error) {
 	return makeRequest(
 		"POST",
 		fmt.Sprintf("%s%s%s", c.URL, prefix, url),
-		bytes.NewBuffer(parameters),
+		parameters,
 		c,
 	)
 }
@@ -60,7 +61,7 @@ func (c *MgClient) DeleteRequest(url string, parameters []byte) ([]byte, int, er
 	)
 }
 
-func makeRequest(reqType, url string, buf *bytes.Buffer, c *MgClient) ([]byte, int, error) {
+func makeRequest(reqType, url string, buf io.Reader, c *MgClient) ([]byte, int, error) {
 	var res []byte
 	req, err := http.NewRequest(reqType, url, buf)
 	if err != nil {
@@ -71,7 +72,7 @@ func makeRequest(reqType, url string, buf *bytes.Buffer, c *MgClient) ([]byte, i
 	req.Header.Set("X-Bot-Token", c.Token)
 
 	if c.Debug {
-		log.Printf("MG BOT API Request: %s %s %s %s", reqType, url, c.Token, buf.String())
+		log.Printf("MG BOT API Request: %s %s %s %+v", reqType, url, c.Token, buf)
 	}
 
 	resp, err := c.httpClient.Do(req)
