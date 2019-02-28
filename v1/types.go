@@ -146,7 +146,7 @@ type (
 	}
 
 	MessagesRequest struct {
-		ID          uint64 `url:"id,omitempty"`
+		ID          []int `url:"id,omitempty"`
 		ChatID      uint64 `url:"chat_id,omitempty" json:"chat_id"`
 		DialogID    uint64 `url:"dialog_id,omitempty" json:"dialog_id"`
 		UserID      uint64 `url:"user_id,omitempty" json:"user_id"`
