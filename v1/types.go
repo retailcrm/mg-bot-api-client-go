@@ -24,19 +24,23 @@ const (
 	MessageScopePublic  string = "public"
 	MessageScopePrivate string = "private"
 
-	WsEventMessageNew     string = "message_new"
-	WsEventMessageUpdated string = "message_updated"
-	WsEventMessageDeleted string = "message_deleted"
-	WsEventDialogOpened   string = "dialog_opened"
-	WsEventDialogClosed   string = "dialog_closed"
-	WsEventDialogAssign   string = "dialog_assign"
-	WsEventChatCreated    string = "chat_created"
-	WsEventChatUpdated    string = "chat_updated"
-	WsEventUserJoined     string = "user_joined_chat"
-	WsEventUserLeave      string = "user_left_chat"
-	WsEventUserUpdated    string = "user_updated"
-	WsCustomerUpdated     string = "customer_updated"
-	WsBotUpdated          string = "bot_updated"
+	WsEventMessageNew        string = "message_new"
+	WsEventMessageUpdated    string = "message_updated"
+	WsEventMessageDeleted    string = "message_deleted"
+	WsEventDialogOpened      string = "dialog_opened"
+	WsEventDialogClosed      string = "dialog_closed"
+	WsEventDialogAssign      string = "dialog_assign"
+	WsEventChatCreated       string = "chat_created"
+	WsEventChatUpdated       string = "chat_updated"
+	WsEventChatUnreadUpdated string = "chat_unread_updated"
+	WsEventUserOnlineUpdated string = "user_online_updated"
+	WsEventUserJoined        string = "user_joined_chat"
+	WsEventUserLeave         string = "user_left_chat"
+	WsEventUserUpdated       string = "user_updated"
+	WsCustomerUpdated        string = "customer_updated"
+	WsBotUpdated             string = "bot_updated"
+	WsEventChannelUpdated    string = "channel_updated"
+	WsEventSettingsUpdated   string = "settings_updated"
 
 	ChannelFeatureNone    string = "none"
 	ChannelFeatureReceive string = "receive"
@@ -146,7 +150,7 @@ type (
 	}
 
 	MessagesRequest struct {
-		ID          []int `url:"id,omitempty"`
+		ID          []int  `url:"id,omitempty"`
 		ChatID      uint64 `url:"chat_id,omitempty" json:"chat_id"`
 		DialogID    uint64 `url:"dialog_id,omitempty" json:"dialog_id"`
 		UserID      uint64 `url:"user_id,omitempty" json:"user_id"`
@@ -468,6 +472,8 @@ type (
 		LastName  string `json:"last_name,omitempty"`
 		Phone     string `json:"phone,omitempty"`
 		Email     string `json:"email,omitempty"`
+		IsAdmin   bool   `json:"is_admin"`
+		Available bool   `json:"available"`
 	}
 
 	Channel struct {
@@ -618,5 +624,10 @@ type (
 	EventUserJoinedChatData struct {
 		Chat *Chat    `json:"chat"`
 		User *UserRef `json:"user"`
+	}
+
+	WsEventUserOnlineUpdatedData struct {
+		User   *UserRef
+		Online bool
 	}
 )
