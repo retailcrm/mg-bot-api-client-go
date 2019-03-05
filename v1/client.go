@@ -51,12 +51,12 @@ func (c *MgClient) Bots(request BotsRequest) ([]BotsResponseItem, int, error) {
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -91,12 +91,12 @@ func (c *MgClient) Channels(request ChannelsRequest) ([]ChannelResponseItem, int
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -131,12 +131,12 @@ func (c *MgClient) Users(request UsersRequest) ([]UsersResponseItem, int, error)
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -171,12 +171,12 @@ func (c *MgClient) Customers(request CustomersRequest) ([]CustomersResponseItem,
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -211,12 +211,12 @@ func (c *MgClient) Chats(request ChatsRequest) ([]ChatResponseItem, int, error) 
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -251,12 +251,12 @@ func (c *MgClient) Members(request MembersRequest) ([]MemberResponseItem, int, e
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -291,12 +291,12 @@ func (c *MgClient) Dialogs(request DialogsRequest) ([]DialogResponseItem, int, e
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -328,12 +328,12 @@ func (c *MgClient) DialogAssign(request DialogAssignRequest) (DialogAssignRespon
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -363,12 +363,12 @@ func (c *MgClient) DialogClose(request uint64) (map[string]interface{}, int, err
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -403,12 +403,12 @@ func (c *MgClient) Messages(request MessagesRequest) ([]MessagesResponseItem, in
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -444,12 +444,12 @@ func (c *MgClient) MessageSend(request MessageSendRequest) (MessageSendResponse,
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -482,12 +482,12 @@ func (c *MgClient) MessageEdit(request MessageEditRequest) (map[string]interface
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -517,12 +517,12 @@ func (c *MgClient) MessageDelete(request uint64) (map[string]interface{}, int, e
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -552,12 +552,12 @@ func (c *MgClient) Info(request InfoRequest) (map[string]interface{}, int, error
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -592,12 +592,12 @@ func (c *MgClient) Commands(request CommandsRequest) ([]CommandsResponseItem, in
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -633,12 +633,12 @@ func (c *MgClient) CommandEdit(request CommandEditRequest) (CommandsResponseItem
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -668,12 +668,12 @@ func (c *MgClient) CommandDelete(request string) (map[string]interface{}, int, e
 		return resp, status, err
 	}
 
-	if err := json.Unmarshal(data, &resp); err != nil {
-		return resp, status, err
-	}
-
 	if status > http.StatusCreated || status < http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
 	}
 
 	return resp, status, err
@@ -702,12 +702,12 @@ func (c *MgClient) GetFile(request string) (FullFileResponse, int, error) {
 		return resp, status, err
 	}
 
-	if e := json.Unmarshal(data, &resp); e != nil {
-		return resp, status, e
-	}
-
 	if status != http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if e := json.Unmarshal(data, &resp); e != nil {
+		return resp, status, e
 	}
 
 	return resp, status, err
@@ -741,12 +741,12 @@ func (c *MgClient) UploadFile(request io.Reader) (UploadFileResponse, int, error
 		return resp, status, err
 	}
 
-	if e := json.Unmarshal(data, &resp); e != nil {
-		return resp, status, e
-	}
-
 	if status != http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if e := json.Unmarshal(data, &resp); e != nil {
+		return resp, status, e
 	}
 
 	return resp, status, err
@@ -774,12 +774,12 @@ func (c *MgClient) UploadFileByURL(request UploadFileByUrlRequest) (UploadFileRe
 		return resp, status, err
 	}
 
-	if e := json.Unmarshal(data, &resp); e != nil {
-		return resp, status, e
-	}
-
 	if status != http.StatusOK {
 		return resp, status, c.Error(data)
+	}
+
+	if e := json.Unmarshal(data, &resp); e != nil {
+		return resp, status, e
 	}
 
 	return resp, status, err
