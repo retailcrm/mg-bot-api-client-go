@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"math/rand"
@@ -11,6 +12,7 @@ import (
 	"testing"
 	"time"
 
+	"github.com/h2non/gock"
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"
 )
@@ -30,25 +32,37 @@ func TestMain(m *testing.M) {
 		if err != nil {
 			log.Fatal("Error loading .env file")
 		}
-
-		os.Exit(m.Run())
 	}
+
+	os.Exit(m.Run())
 }
 
 var (
-	mgURL   = os.Getenv("MG_URL")
-	mgToken = os.Getenv("MG_BOT_TOKEN")
+	mgURL    = "https://api.example.com"
+	mgToken  = "test_token"
+	debug, _ = strconv.ParseBool(os.Getenv("DEBUG"))
 )
 
 func client() *MgClient {
 	c := New(mgURL, mgToken)
-	c.Debug = true
+
+	if debug != false {
+		c.Debug = true
+	}
 
 	return c
 }
 
 func TestMgClient_Bots(t *testing.T) {
 	c := client()
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Get("/api/bot/v1/bots").
+		Reply(200).
+		BodyString(`[{"id": 1, "name": "Test Bot", "created_at": "2018-01-01T00:00:00.000000Z", "is_active": true, "is_self": true}]`)
+
 	req := BotsRequest{Active: 1}
 
 	data, status, err := c.Bots(req)
@@ -66,6 +80,14 @@ func TestMgClient_Bots(t *testing.T) {
 
 func TestMgClient_Channels(t *testing.T) {
 	c := client()
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Get("/api/bot/v1/channels").
+		Reply(200).
+		BodyString(`[{"id": 1, "type":"test_type", "name": "Test Bot", "created_at": "2018-01-01T00:00:00.000000Z", "is_active": true}]`)
+
 	req := ChannelsRequest{Active: 1}
 
 	data, status, err := c.Channels(req)
@@ -83,6 +105,14 @@ func TestMgClient_Channels(t *testing.T) {
 
 func TestMgClient_Users(t *testing.T) {
 	c := client()
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Get("/api/bot/v1/users").
+		Reply(200).
+		BodyString(`[{"id": 1, "external_id":"1", "username": "Test", "first_name":"Test", "last_name":"Test", "created_at": "2018-01-01T00:00:00.000000Z", "is_active": true, "is_online": true}]`)
+
 	req := UsersRequest{Active: 1}
 
 	data, status, err := c.Users(req)
@@ -100,6 +130,14 @@ func TestMgClient_Users(t *testing.T) {
 
 func TestMgClient_Customers(t *testing.T) {
 	c := client()
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Get("/api/bot/v1/customers").
+		Reply(200).
+		BodyString(`[{"id": 1,"channel_id": 1, "created_at": "2018-01-01T00:00:00.000000Z"}]`)
+
 	req := CustomersRequest{}
 
 	data, status, err := c.Customers(req)
@@ -117,6 +155,14 @@ func TestMgClient_Customers(t *testing.T) {
 
 func TestMgClient_Chats(t *testing.T) {
 	c := client()
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Get("/api/bot/v1/chats").
+		Reply(200).
+		BodyString(`[{"id": 1,"customer": {"id": 1, "name": "Test"}, "created_at": "2018-01-01T00:00:00.000000Z"}]`)
+
 	req := ChatsRequest{ChannelType: ChannelTypeTelegram}
 
 	data, status, err := c.Chats(req)
@@ -134,6 +180,14 @@ func TestMgClient_Chats(t *testing.T) {
 
 func TestMgClient_Members(t *testing.T) {
 	c := client()
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Get("/api/bot/v1/members").
+		Reply(200).
+		BodyString(`[{"id": 1,"user_id": 1, "chat_id": 1, "created_at": "2018-01-01T00:00:00.000000Z"}]`)
+
 	req := MembersRequest{State: ChatMemberStateLeaved}
 
 	data, status, err := c.Members(req)
@@ -150,6 +204,14 @@ func TestMgClient_Members(t *testing.T) {
 
 func TestMgClient_Dialogs(t *testing.T) {
 	c := client()
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Get("/api/bot/v1/dialogs").
+		Reply(200).
+		BodyString(`[{"id": 1, "chat_id": 1, "created_at": "2018-01-01T00:00:00.000000Z"}]`)
+
 	req := DialogsRequest{Active: 0}
 
 	data, status, err := c.Dialogs(req)
@@ -167,9 +229,19 @@ func TestMgClient_Dialogs(t *testing.T) {
 
 func TestMgClient_DialogAssign(t *testing.T) {
 	c := client()
-	i, err := strconv.ParseUint(os.Getenv("MG_BOT_DIALOG"), 10, 64)
-	m, err := strconv.ParseUint(os.Getenv("MG_BOT_USER"), 10, 64)
-	req := DialogAssignRequest{DialogID: i, UserID: m}
+
+	d := 1
+	u := 1
+	req := DialogAssignRequest{DialogID: uint64(d), UserID: uint64(u)}
+	r, _ := json.Marshal(req)
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Patch("/api/bot/v1/dialogs/1/assign").
+		JSON(r).
+		Reply(400).
+		BodyString(`{"errors": ["dialog is not the latest in the chat"]}`)
 
 	_, status, err := c.DialogAssign(req)
 
@@ -179,8 +251,16 @@ func TestMgClient_DialogAssign(t *testing.T) {
 
 func TestMgClient_DialogClose(t *testing.T) {
 	c := client()
-	i, err := strconv.ParseUint(os.Getenv("MG_BOT_DIALOG"), 10, 64)
-	_, status, err := c.DialogClose(i)
+	i := 1
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Delete("/api/bot/v1/dialogs/1/close").
+		Reply(400).
+		BodyString(`{"errors": ["dialog #1 not found"]}`)
+
+	_, status, err := c.DialogClose(uint64(i))
 
 	assert.Error(t, err)
 	assert.Equal(t, http.StatusBadRequest, status)
@@ -188,6 +268,14 @@ func TestMgClient_DialogClose(t *testing.T) {
 
 func TestMgClient_Messages(t *testing.T) {
 	c := client()
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Get("/api/bot/v1/messages").
+		Reply(200).
+		BodyString(`[{"id": 1, "time": "2018-01-01T00:00:00+03:00", "type": "text", "scope": "public", "chat_id": 1, "is_read": false, "is_edit": false, "status": "received", "created_at": "2018-01-01T00:00:00.000000Z"}]`)
+
 	req := MessagesRequest{ChannelType: ChannelTypeTelegram, Scope: MessageScopePublic}
 
 	data, status, err := c.Messages(req)
@@ -205,13 +293,22 @@ func TestMgClient_Messages(t *testing.T) {
 
 func TestMgClient_MessageSendText(t *testing.T) {
 	c := client()
-	i, err := strconv.ParseUint(os.Getenv("MG_BOT_CHAT"), 10, 64)
+
+	i := uint64(1)
 	message := MessageSendRequest{
 		Type:    MsgTypeText,
 		Scope:   "public",
 		Content: "test",
 		ChatID:  i,
 	}
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Post("/api/bot/v1/messages").
+		JSON(message).
+		Reply(200).
+		BodyString(`{"message_id": 1, "time": "2018-01-01T00:00:00+03:00"}`)
 
 	data, status, err := c.MessageSend(message)
 	if err != nil {
@@ -225,7 +322,7 @@ func TestMgClient_MessageSendText(t *testing.T) {
 func TestMgClient_MessageSendProduct(t *testing.T) {
 	c := client()
 
-	msg, _, err := c.MessageSend(MessageSendRequest{
+	message := MessageSendRequest{
 		Type:   MsgTypeProduct,
 		ChatID: 5,
 		Scope:  "public",
@@ -243,7 +340,17 @@ func TestMgClient_MessageSendProduct(t *testing.T) {
 				Value: 1,
 			},
 		},
-	})
+	}
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Post("/api/bot/v1/messages").
+		JSON(message).
+		Reply(200).
+		BodyString(`{"message_id": 1, "time": "2018-01-01T00:00:00+03:00"}`)
+
+	msg, _, err := c.MessageSend(message)
 
 	if err != nil {
 		t.Errorf("%v", err)
@@ -256,7 +363,7 @@ func TestMgClient_MessageSendProduct(t *testing.T) {
 func TestMgClient_MessageSendOrder(t *testing.T) {
 	c := client()
 
-	msg, _, err := c.MessageSend(MessageSendRequest{
+	message := MessageSendRequest{
 		Type:   MsgTypeOrder,
 		ChatID: 5,
 		Scope:  "public",
@@ -293,7 +400,17 @@ func TestMgClient_MessageSendOrder(t *testing.T) {
 				},
 			},
 		},
-	})
+	}
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Post("/api/bot/v1/messages").
+		JSON(message).
+		Reply(200).
+		BodyString(`{"message_id": 1, "time": "2018-01-01T00:00:00+03:00"}`)
+
+	msg, _, err := c.MessageSend(message)
 
 	if err != nil {
 		t.Errorf("%v", err)
@@ -311,28 +428,21 @@ func TestMgClient_RandomStringGenerator(t *testing.T) {
 
 func TestMgClient_MessageEdit(t *testing.T) {
 	c := client()
-	i, err := strconv.ParseUint(os.Getenv("MG_BOT_CHAT"), 10, 64)
-	message := MessageSendRequest{
-		Type:    MsgTypeText,
-		Scope:   "public",
-		Content: "test",
-		ChatID:  i,
-	}
 
-	s, status, err := c.MessageSend(message)
-	if err != nil {
-		t.Errorf("%d %v", status, err)
-	}
-
-	assert.NoError(t, err)
-	assert.NotEmpty(t, s.MessageID)
-
-	edit := MessageEditRequest{
-		ID:      s.MessageID,
+	message := MessageEditRequest{
+		ID:      uint64(1),
 		Content: "test",
 	}
 
-	e, status, err := c.MessageEdit(edit)
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Patch("/api/bot/v1/messages/1").
+		JSON(message).
+		Reply(200).
+		BodyString(`{"message_id": 1, "time": "2018-01-01T00:00:00+03:00"}`)
+
+	e, status, err := c.MessageEdit(message)
 	if err != nil {
 		t.Errorf("%d %v", status, err)
 	}
@@ -342,23 +452,15 @@ func TestMgClient_MessageEdit(t *testing.T) {
 
 func TestMgClient_MessageDelete(t *testing.T) {
 	c := client()
-	i, err := strconv.ParseUint(os.Getenv("MG_BOT_CHAT"), 10, 64)
-	message := MessageSendRequest{
-		Type:    MsgTypeText,
-		Scope:   "public",
-		Content: "test",
-		ChatID:  i,
-	}
 
-	s, status, err := c.MessageSend(message)
-	if err != nil {
-		t.Errorf("%d %v", status, err)
-	}
+	defer gock.Off()
 
-	assert.NoError(t, err)
-	assert.NotEmpty(t, s.MessageID)
+	gock.New(mgURL).
+		Delete("/api/bot/v1/messages/1").
+		Reply(200).
+		BodyString(`{}`)
 
-	d, status, err := c.MessageDelete(s.MessageID)
+	d, status, err := c.MessageDelete(1)
 	if err != nil {
 		t.Errorf("%d %v", status, err)
 	}
@@ -368,7 +470,15 @@ func TestMgClient_MessageDelete(t *testing.T) {
 
 func TestMgClient_Info(t *testing.T) {
 	c := client()
-	req := InfoRequest{Name: "AWESOME", Avatar: os.Getenv("MG_BOT_LOGO")}
+	req := InfoRequest{Name: "AWESOME", Avatar: "https://test.com/awesome_bot_avatar"}
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Patch("/api/bot/v1/my/info").
+		JSON(req).
+		Reply(200).
+		BodyString(`{}`)
 
 	_, status, err := c.Info(req)
 	if err != nil {
@@ -380,6 +490,14 @@ func TestMgClient_Info(t *testing.T) {
 
 func TestMgClient_Commands(t *testing.T) {
 	c := client()
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Get("/api/bot/v1/my/commands").
+		Reply(200).
+		BodyString(`[{"id": 1, "name": "command_name", "description": "Command description", "created_at": "2018-01-01T00:00:00.000000Z"}]`)
+
 	req := CommandsRequest{}
 
 	data, status, err := c.Commands(req)
@@ -398,9 +516,17 @@ func TestMgClient_Commands(t *testing.T) {
 func TestMgClient_CommandEditDelete(t *testing.T) {
 	c := client()
 	req := CommandEditRequest{
-		Name:        "show_payment_types",
-		Description: "Get available payment types",
+		Name:        "test_command",
+		Description: "Test command",
 	}
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Put("/api/bot/v1/my/commands/test_command").
+		JSON(req).
+		Reply(200).
+		BodyString(`{"id": 1, "name": "test_command", "description": "Test description"}`)
 
 	n, status, err := c.CommandEdit(req)
 	if err != nil {
@@ -409,6 +535,11 @@ func TestMgClient_CommandEditDelete(t *testing.T) {
 
 	assert.NoError(t, err)
 	assert.NotEmpty(t, n.ID)
+
+	gock.New(mgURL).
+		Delete("/api/bot/v1/my/commands/test_command").
+		Reply(200).
+		BodyString(`{}`)
 
 	d, status, err := c.CommandDelete(n.Name)
 	if err != nil {
@@ -444,6 +575,12 @@ func TestMgClient_UploadFile(t *testing.T) {
 	}
 
 	defer resp.Body.Close()
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Post("/api/bot/v1/files/upload").
+		Reply(200).
+		BodyString(`{"created_at": "2018-01-01T00:00:00.000000Z", "hash": "hash", "id": "1"}`)
 
 	data, status, err := c.UploadFile(resp.Body)
 
@@ -454,12 +591,21 @@ func TestMgClient_UploadFile(t *testing.T) {
 	t.Logf("File %+v is upload", data)
 }
 
-func TestMgClient_ImageMessages(t *testing.T) {
+func TestMgClient_UploadFileByUrl(t *testing.T) {
 	c := client()
-
-	uploadFileResponse, st, err := c.UploadFileByURL(UploadFileByUrlRequest{
+	file := UploadFileByUrlRequest{
 		Url: "https://via.placeholder.com/300",
-	})
+	}
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Post("/api/bot/v1/files/upload_by_url").
+		JSON(file).
+		Reply(200).
+		BodyString(`{"created_at": "2018-01-01T00:00:00.000000Z", "hash": "hash", "id": "1"}`)
+
+	uploadFileResponse, st, err := c.UploadFileByURL(file)
 
 	if st != http.StatusOK {
 		t.Errorf("%v", err)
@@ -467,21 +613,7 @@ func TestMgClient_ImageMessages(t *testing.T) {
 
 	t.Logf("File %+v is upload", uploadFileResponse.ID)
 
-	i, err := strconv.ParseUint(os.Getenv("MG_BOT_CHAT"), 10, 64)
-	message := MessageSendRequest{
-		Type:   MsgTypeImage,
-		Scope:  MessageScopePublic,
-		Items:  []Item{{ID: uploadFileResponse.ID}},
-		ChatID: i,
-	}
-
-	data, status, err := c.MessageSend(message)
-	if err != nil {
-		t.Errorf("%d %v", status, err)
-	}
-
 	assert.NoError(t, err)
-	assert.NotEmpty(t, data.MessageID)
 }
 
 func RandStringBytesMaskImprSrc(n int) string {
