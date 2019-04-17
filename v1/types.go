@@ -371,6 +371,7 @@ type (
 		IsRead  bool            `json:"is_read"`
 		IsEdit  bool            `json:"is_edit"`
 		Status  string          `json:"status"`
+		Chat    *Chat           `json:"chat"`
 		From    *UserRef        `json:"from"`
 		Product *MessageProduct `json:"product,omitempty"`
 		Order   *MessageOrder   `json:"order,omitempty"`
