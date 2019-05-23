@@ -90,6 +90,7 @@ type (
 		Role   string `url:"role,omitempty"`
 		Since  string `url:"since,omitempty"`
 		Until  string `url:"until,omitempty"`
+		Limit  int    `url:"int,omitempty"`
 	}
 
 	ChannelsRequest struct {
@@ -98,6 +99,7 @@ type (
 		Active uint8    `url:"active,omitempty"`
 		Since  string   `url:"since,omitempty"`
 		Until  string   `url:"until,omitempty"`
+		Limit  int      `url:"int,omitempty"`
 	}
 
 	UsersRequest struct {
@@ -107,6 +109,7 @@ type (
 		Active     uint8  `url:"active,omitempty"`
 		Since      string `url:"since,omitempty"`
 		Until      string `url:"until,omitempty"`
+		Limit      int    `url:"int,omitempty"`
 	}
 
 	CustomersRequest struct {
@@ -114,6 +117,7 @@ type (
 		ExternalID string `url:"external_id,omitempty" json:"external_id"`
 		Since      string `url:"since,omitempty"`
 		Until      string `url:"until,omitempty"`
+		Limit      int    `url:"int,omitempty"`
 	}
 
 	ChatsRequest struct {
@@ -122,6 +126,7 @@ type (
 		ChannelType string `url:"channel_type,omitempty" json:"channel_type"`
 		Since       string `url:"since,omitempty"`
 		Until       string `url:"until,omitempty"`
+		Limit       int    `url:"int,omitempty"`
 	}
 
 	MembersRequest struct {
@@ -130,6 +135,7 @@ type (
 		State  string `url:"state,omitempty"`
 		Since  string `url:"since,omitempty"`
 		Until  string `url:"until,omitempty"`
+		Limit  int    `url:"int,omitempty"`
 	}
 
 	DialogsRequest struct {
@@ -141,6 +147,7 @@ type (
 		Active uint8  `url:"active,omitempty"`
 		Since  string `url:"since,omitempty"`
 		Until  string `url:"until,omitempty"`
+		Limit  int    `url:"int,omitempty"`
 	}
 
 	DialogAssignRequest struct {
@@ -162,6 +169,7 @@ type (
 		Type        string `url:"type,omitempty"`
 		Since       string `url:"since,omitempty"`
 		Until       string `url:"until,omitempty"`
+		Limit       int    `url:"int,omitempty"`
 	}
 
 	MessageSendRequest struct {
@@ -191,6 +199,7 @@ type (
 		Name  string `url:"name,omitempty"`
 		Since string `url:"since,omitempty"`
 		Until string `url:"until,omitempty"`
+		Limit int    `url:"int,omitempty"`
 	}
 
 	CommandEditRequest struct {
