@@ -210,6 +210,12 @@ type (
 	UploadFileByUrlRequest struct {
 		Url string `json:"url"`
 	}
+
+	ResponsibleHistoryRequest struct {
+		ChatID   uint64 `url:"chat_id,omitempty" json:"chat_id"`
+		DialogID uint64 `url:"dialog_id,omitempty" json:"dialog_id"`
+		Limit    int    `url:"int,omitempty"`
+	}
 )
 
 // Response types
@@ -352,6 +358,17 @@ type (
 		Size      int       `json:"size"`
 		Url       *string   `json:"source_url"`
 		CreatedAt time.Time `json:"created_at"`
+	}
+
+	ResponsibleHistoryResponseItem struct {
+		ID             uint64   `json:"id"`
+		DialogID       uint64   `json:"dialog_id"`
+		Responsible    UserRef  `json:"responsible"`
+		AssignedBy     *UserRef `json:"assigned_by"`
+		UnassignedBy   *UserRef `json:"unassigned_by"`
+		UnassignReason string   `json:"unassign_reason"`
+		UnassignedAt   *string  `json:"unassigned_at"`
+		AssignedAt     string   `json:"assigned_at"`
 	}
 )
 

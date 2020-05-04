@@ -785,6 +785,46 @@ func (c *MgClient) UploadFileByURL(request UploadFileByUrlRequest) (UploadFileRe
 	return resp, status, err
 }
 
+// ResponsibleHistory get history of responsibles
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.ResponsibleHistory(ResponsibleHistoryRequest{DialogID:1})
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	for _, historyItem := range data {
+// 		fmt.Printf("%v %v\n", historyItem.AssignedAt)
+// 	}
+func (c *MgClient) ResponsibleHistory(request ResponsibleHistoryRequest) ([]ResponsibleHistoryResponseItem, int, error) {
+	var resp []ResponsibleHistoryResponseItem
+	var b []byte
+	outgoing, _ := query.Values(request)
+
+	data, status, err := c.GetRequest(fmt.Sprintf("/dialogs/history?%s", outgoing.Encode()), b)
+	if err != nil {
+		return resp, status, err
+	}
+
+	if status > http.StatusCreated || status < http.StatusOK {
+		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
+	}
+
+	return resp, status, err
+}
+
 // WsMeta let you receive url & headers to open web socket connection
 func (c *MgClient) WsMeta(events []string) (string, http.Header, error) {
 	var url string
