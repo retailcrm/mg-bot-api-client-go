@@ -339,6 +339,42 @@ func (c *MgClient) DialogAssign(request DialogAssignRequest) (DialogAssignRespon
 	return resp, status, err
 }
 
+// DialogUnassign allows to remove responsible from the dialogue
+//
+// Example:
+//
+// 	var client = v1.New("https://demo.url", "09jIJ")
+//
+// 	data, status, err := client.DialogUnassign(1)
+//
+// 	if err != nil {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	if status >= http.StatusBadRequest {
+// 		fmt.Printf("%v", err)
+// 	}
+//
+// 	fmt.Printf("%v\n", data.Responsible)
+func (c *MgClient) DialogUnassign(dialogID uint64) (DialogUnassignResponse, int, error) {
+	var resp DialogUnassignResponse
+
+	data, status, err := c.PatchRequest(fmt.Sprintf("/dialogs/%d/unassign", dialogID), nil)
+	if err != nil {
+		return resp, status, err
+	}
+
+	if status != http.StatusOK {
+		return resp, status, c.Error(data)
+	}
+
+	if err := json.Unmarshal(data, &resp); err != nil {
+		return resp, status, err
+	}
+
+	return resp, status, err
+}
+
 // DialogClose close selected dialog
 //
 // Example:

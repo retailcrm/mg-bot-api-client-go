@@ -315,6 +315,10 @@ type (
 		IsReAssign          bool        `json:"is_reassign"`
 	}
 
+	DialogUnassignResponse struct {
+		PreviousResponsible Responsible `json:"previous_responsible,omitempty"`
+	}
+
 	MessagesResponseItem struct {
 		Message
 		ChannelID     uint64 `json:"channel_id,omitempty"`

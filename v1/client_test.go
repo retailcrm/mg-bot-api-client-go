@@ -249,6 +249,63 @@ func TestMgClient_DialogAssign(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, status)
 }
 
+func TestMgClient_DialogUnassign(t *testing.T) {
+	c := client()
+	defer gock.Off()
+
+	t.Run("success", func(t *testing.T) {
+		gock.New(mgURL).
+			Patch("/api/bot/v1/dialogs/777/unassign").
+			Reply(200).
+			BodyString(`{"previous_responsible": {"id": 111, "type": "bot", "assigned_at": "2020-07-14T14:11:44.000000Z"}}`)
+
+		resp, status, err := c.DialogUnassign(777)
+
+		assert.NoError(t, err)
+		assert.Equal(t, http.StatusOK, status)
+
+		assert.Equal(t, int64(111), resp.PreviousResponsible.ID)
+		assert.Equal(t, "bot", resp.PreviousResponsible.Type)
+		assert.Equal(t, "2020-07-14T14:11:44.000000Z", resp.PreviousResponsible.AssignAt)
+	})
+
+	t.Run("dialog not latest in chat", func(t *testing.T) {
+		gock.New(mgURL).
+			Patch("/api/bot/v1/dialogs/666/unassign").
+			Reply(400).
+			BodyString(`{"errors": ["dialog is not the latest in the chat"]}`)
+
+		_, status, err := c.DialogUnassign(666)
+
+		assert.Error(t, err, "dialog is not the latest in the chat")
+		assert.Equal(t, http.StatusBadRequest, status)
+	})
+
+	t.Run("dialog is not assigned", func(t *testing.T) {
+		gock.New(mgURL).
+			Patch("/api/bot/v1/dialogs/555/unassign").
+			Reply(400).
+			BodyString(`{"errors": ["dialog is not assigned"]}`)
+
+		_, status, err := c.DialogUnassign(555)
+
+		assert.Error(t, err)
+		assert.Equal(t, http.StatusBadRequest, status)
+	})
+
+	t.Run("dialog not found", func(t *testing.T) {
+		gock.New(mgURL).
+			Patch("/api/bot/v1/dialogs/444/unassign").
+			Reply(404).
+			BodyString(`{"errors": ["dialog #444 not found"]}`)
+
+		_, status, err := c.DialogUnassign(444)
+
+		assert.Error(t, err)
+		assert.Equal(t, http.StatusNotFound, status)
+	})
+}
+
 func TestMgClient_DialogClose(t *testing.T) {
 	c := client()
 	i := 1
