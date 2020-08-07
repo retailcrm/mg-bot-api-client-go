@@ -71,6 +71,10 @@ const (
 	MsgCurrencyKzt = "kzt"
 	MsgCurrencyUsd = "usd"
 	MsgCurrencyEur = "eur"
+
+	SuggestionTypeText  = "text"
+	SuggestionTypeEmail = "email"
+	SuggestionTypePhone = "phone"
 )
 
 // MgClient type
@@ -173,14 +177,24 @@ type (
 	}
 
 	MessageSendRequest struct {
-		Type           string          `url:"type,omitempty" json:"type"`
-		Content        string          `url:"content,omitempty" json:"content"`
-		Product        *MessageProduct `url:"product,omitempty" json:"product"`
-		Order          *MessageOrder   `url:"order,omitempty" json:"order"`
-		Items          []Item          `url:"order,omitempty" json:"items"`
-		Scope          string          `url:"scope,omitempty" json:"scope"`
-		ChatID         uint64          `url:"chat_id,omitempty" json:"chat_id"`
-		QuoteMessageId uint64          `url:"quote_message_id,omitempty" json:"quote_message_id"`
+		Type                 string                `url:"type,omitempty" json:"type"`
+		Content              string                `url:"content,omitempty" json:"content"`
+		Product              *MessageProduct       `url:"product,omitempty" json:"product"`
+		Order                *MessageOrder         `url:"order,omitempty" json:"order"`
+		Items                []Item                `url:"order,omitempty" json:"items"`
+		Scope                string                `url:"scope,omitempty" json:"scope"`
+		ChatID               uint64                `url:"chat_id,omitempty" json:"chat_id"`
+		QuoteMessageId       uint64                `url:"quote_message_id,omitempty" json:"quote_message_id"`
+		TransportAttachments *TransportAttachments `url:"transport_attachments,omitempty" json:"transport_attachments"`
+	}
+
+	TransportAttachments struct {
+		Suggestions []Suggestion `url:"suggestions,omitempty" json:"suggestions"`
+	}
+
+	Suggestion struct {
+		Type  string `url:"type,omitempty" json:"type"`
+		Title string `url:"title,omitempty" json:"title"`
 	}
 
 	MessageEditRequest struct {
@@ -571,6 +585,12 @@ type (
 		} `json:"status"`
 
 		Text ChannelSettingsText `json:"text"`
+
+		Suggestions struct {
+			Text  string `json:"text"`
+			Phone string `json:"phone"`
+			Email string `json:"email"`
+		} `json:"suggestions"`
 	}
 )
 

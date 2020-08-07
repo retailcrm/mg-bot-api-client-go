@@ -319,6 +319,44 @@ func TestMgClient_MessageSendText(t *testing.T) {
 	assert.NotEmpty(t, data.MessageID)
 }
 
+func TestMgClient_MessageSendTextWithSuggestions(t *testing.T) {
+	c := client()
+
+	i := uint64(1)
+	message := MessageSendRequest{
+		Type:    MsgTypeText,
+		Scope:   "public",
+		Content: "test message with suggestions",
+		ChatID:  i,
+		TransportAttachments: &TransportAttachments{
+			Suggestions: []Suggestion{
+				{
+					Type:  SuggestionTypeText,
+					Title: "text suggestion",
+				},
+				{Type: SuggestionTypeEmail},
+				{Type: SuggestionTypePhone},
+			},
+		},
+	}
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Post("/api/bot/v1/messages").
+		JSON(message).
+		Reply(200).
+		BodyString(`{"message_id": 1, "time": "2018-01-01T00:00:00+03:00"}`)
+
+	data, status, err := c.MessageSend(message)
+	if err != nil {
+		t.Errorf("%d %v", status, err)
+	}
+
+	assert.NoError(t, err)
+	assert.NotEmpty(t, data.MessageID)
+}
+
 func TestMgClient_MessageSendProduct(t *testing.T) {
 	c := client()
 
