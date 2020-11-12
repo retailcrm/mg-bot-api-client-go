@@ -4,7 +4,7 @@
 [![Godoc reference](https://img.shields.io/badge/godoc-reference-blue.svg?style=flat-square)](https://godoc.org/github.com/retailcrm/mg-bot-api-client-go)
 
 
-# retailCRM Message Gateway Bot API Go client
+# Message Gateway Bot API Go client
 
 ## Install
 
@@ -98,3 +98,8 @@ func main() {
 	}
 }
 ```
+
+### Documentation
+
+* [English](https://help.retailcrm.pro/Developers/MgBot)
+* [Russian](https://help.retailcrm.ru/Developers/MgBot)
