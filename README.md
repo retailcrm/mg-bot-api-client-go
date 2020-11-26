@@ -1,7 +1,7 @@
 [![Build Status](https://github.com/retailcrm/mg-bot-api-client-go/workflows/ci/badge.svg)](https://github.com/retailcrm/mg-bot-api-client-go/actions)
 [![Coverage](https://img.shields.io/codecov/c/gh/retailcrm/mg-bot-api-client-go/master.svg?logo=codecov)](https://codecov.io/gh/retailcrm/mg-bot-api-client-go)
 [![GitHub release](https://img.shields.io/github/release/retailcrm/mg-bot-api-client-go.svg)](https://github.com/retailcrm/mg-bot-api-client-go/releases)
-[![GoLang version](https://img.shields.io/badge/go-1.8%2C%201.9%2C%201.10%2C%201.11-blue.svg)](https://golang.org/dl/)
+[![GoLang version](https://img.shields.io/badge/go->=1.13-blue.svg)](https://golang.org/dl/)
 [![Godoc reference](https://img.shields.io/badge/godoc-reference-blue.svg)](https://godoc.org/github.com/retailcrm/mg-bot-api-client-go)
 
 
