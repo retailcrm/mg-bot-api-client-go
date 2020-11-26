@@ -33,6 +33,7 @@ jobs:
           go get -v github.com/stretchr/testify/assert
           go get -v github.com/joho/godotenv
           go get -v github.com/h2non/gock
+          cp .env.dist .env
       - name: Tests
         run: go test -v ./... -cover -coverprofile=coverage.txt -covermode=atomic
       - name: Coverage
