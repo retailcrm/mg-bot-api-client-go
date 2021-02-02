@@ -581,8 +581,6 @@ type (
 	}
 
 	ChannelSettings struct {
-		SpamAllowed bool `json:"spam_allowed"`
-
 		Status struct {
 			Delivered string `json:"delivered"`
 			Read      string `json:"read"`
