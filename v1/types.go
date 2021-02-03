@@ -586,8 +586,6 @@ type (
 	}
 
 	ChannelSettings struct {
-		SpamAllowed bool `json:"spam_allowed"`
-
 		CustomerExternalID string `json:"customer_external_id"`
 
 		SendingPolicy struct {
