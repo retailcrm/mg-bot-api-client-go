@@ -573,15 +573,27 @@ type (
 
 // Channel settings
 type (
+	CRUDChannelSettings struct {
+		Creating string `json:"creating"` // none, receive, send, both
+		Editing  string `json:"editing"`  // none, receive, send, both
+		Deleting string `json:"deleting"` // none, receive, send, both
+	}
+
 	ChannelSettingsText struct {
-		Creating string `json:"creating"`
-		Editing  string `json:"editing"`
-		Quoting  string `json:"quoting"`
-		Deleting string `json:"deleting"`
+		CRUDChannelSettings
+		Quoting       string `json:"quoting"` // none, receive, send, both
+		MaxCharsCount uint16 `json:"max_chars_count"`
 	}
 
 	ChannelSettings struct {
 		SpamAllowed bool `json:"spam_allowed"`
+
+		CustomerExternalID string `json:"customer_external_id"`
+
+		SendingPolicy struct {
+			NewCustomer       string `json:"new_customer"`
+			AfterReplyTimeout string `json:"after_reply_timeout"`
+		} `json:"sending_policy"`
 
 		Status struct {
 			Delivered string `json:"delivered"`
@@ -589,6 +601,38 @@ type (
 		} `json:"status"`
 
 		Text ChannelSettingsText `json:"text"`
+
+		Product struct {
+			CRUDChannelSettings
+		} `json:"product"`
+
+		Order struct {
+			CRUDChannelSettings
+		} `json:"order"`
+
+		Image struct {
+			CRUDChannelSettings
+			Quoting string `json:"quoting"`
+
+			MaxItemsCount     int    `json:"max_items_count"`
+			NoteMaxCharsCount uint16 `json:"note_max_chars_count"`
+		} `json:"image"`
+
+		File struct {
+			CRUDChannelSettings
+			Quoting string `json:"quoting"`
+
+			MaxItemsCount     int    `json:"max_items_count"`
+			NoteMaxCharsCount uint16 `json:"note_max_chars_count"`
+		} `json:"file"`
+
+		Audio struct {
+			Creating string `json:"creating"`
+			Quoting  string `json:"quoting"`
+			Deleting string `json:"deleting"`
+
+			MaxItemsCount int `json:"max_items_count"`
+		} `json:"audio"`
 
 		Suggestions struct {
 			Text  string `json:"text"`
