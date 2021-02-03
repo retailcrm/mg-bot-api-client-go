@@ -86,21 +86,123 @@ func TestMgClient_Channels(t *testing.T) {
 	gock.New(mgURL).
 		Get("/api/bot/v1/channels").
 		Reply(200).
-		BodyString(`[{"id": 1, "type":"test_type", "name": "Test Bot", "created_at": "2018-01-01T00:00:00.000000Z", "is_active": true}]`)
+		BodyString(`[
+			{
+				"id": 1,
+				"type": "custom",
+				"name": "Test custom channel",
+				"settings": {
+				  "customer_external_id": "phone",
+				  "sending_policy": {
+					"new_customer": "no",
+					"after_reply_timeout": "template"
+				  },
+				  "status": {
+					"delivered": "both",
+					"read": "receive"
+				  },
+				  "text": {
+					"creating": "both",
+					"editing": "receive",
+					"quoting": "send",
+					"deleting": "receive",
+					"max_chars_count": 777
+				  },
+				  "product": {
+					"creating": "receive",
+					"editing": "receive",
+					"deleting": "receive"
+				  },
+				  "order": {
+					"creating": "receive",
+					"editing": "receive",
+					"deleting": "receive"
+				  },
+				  "image": {
+					"creating": "both",
+					"quoting": "receive",
+					"editing": "none",
+					"deleting": "receive",
+					"max_items_count": 1,
+					"note_max_chars_count": 777
+				  },
+				  "file": {
+					"creating": "both",
+					"quoting": "receive",
+					"editing": "none",
+					"deleting": "receive",
+					"max_items_count": 1,
+					"note_max_chars_count": 777
+				  },
+				  "suggestions": {
+					"text": "receive",
+					"email": "receive",
+					"phone": "receive"
+				  }
+				},
+				"created_at": "2018-01-01T00:00:00.000000Z",
+				"updated_at": null,
+				"activated_at": "2018-01-01T00:00:00.000000Z",
+				"deactivated_at": null,
+				"is_active": true
+			  }
+		]`)
 
-	req := ChannelsRequest{Active: 1}
-
-	data, status, err := c.Channels(req)
-	if err != nil {
-		t.Errorf("%d %v", status, err)
-	}
-
+	channels, status, err := c.Channels(ChannelsRequest{Active: 1})
 	assert.NoError(t, err)
-	assert.NotEmpty(t, data)
+	assert.Equal(t, 200, status)
+	assert.Len(t, channels, 1)
 
-	for _, channel := range data {
-		assert.NotEmpty(t, channel.Type)
-	}
+	ch := channels[0]
+	assert.Equal(t, uint64(1), ch.ID)
+	assert.Equal(t, ChannelTypeCustom, ch.Type)
+	assert.Equal(t, "Test custom channel", ch.Name)
+	assert.Equal(t, "2018-01-01T00:00:00.000000Z", ch.CreatedAt)
+	assert.Empty(t, ch.UpdatedAt)
+	assert.Equal(t, "2018-01-01T00:00:00.000000Z", ch.ActivatedAt)
+	assert.Empty(t, ch.DeactivatedAt)
+	assert.True(t, ch.IsActive)
+
+	chs := ch.Settings
+	assert.Equal(t, "phone", chs.CustomerExternalID)
+
+	assert.Equal(t, "no", chs.SendingPolicy.NewCustomer)
+	assert.Equal(t, "template", chs.SendingPolicy.AfterReplyTimeout)
+
+	assert.Equal(t, ChannelFeatureBoth, chs.Status.Delivered)
+	assert.Equal(t, ChannelFeatureReceive, chs.Status.Read)
+
+	assert.Equal(t, ChannelFeatureBoth, chs.Text.Creating)
+	assert.Equal(t, ChannelFeatureReceive, chs.Text.Editing)
+	assert.Equal(t, ChannelFeatureSend, chs.Text.Quoting)
+	assert.Equal(t, ChannelFeatureReceive, chs.Text.Deleting)
+	assert.Equal(t, uint16(777), chs.Text.MaxCharsCount)
+
+	assert.Equal(t, ChannelFeatureReceive, chs.Product.Creating)
+	assert.Equal(t, ChannelFeatureReceive, chs.Product.Editing)
+	assert.Equal(t, ChannelFeatureReceive, chs.Product.Deleting)
+
+	assert.Equal(t, ChannelFeatureReceive, chs.Order.Creating)
+	assert.Equal(t, ChannelFeatureReceive, chs.Order.Editing)
+	assert.Equal(t, ChannelFeatureReceive, chs.Order.Deleting)
+
+	assert.Equal(t, ChannelFeatureBoth, chs.Image.Creating)
+	assert.Equal(t, ChannelFeatureNone, chs.Image.Editing)
+	assert.Equal(t, ChannelFeatureReceive, chs.Image.Quoting)
+	assert.Equal(t, ChannelFeatureReceive, chs.Image.Deleting)
+	assert.Equal(t, 1, chs.Image.MaxItemsCount)
+	assert.Equal(t, uint16(777), chs.Image.NoteMaxCharsCount)
+
+	assert.Equal(t, ChannelFeatureBoth, chs.File.Creating)
+	assert.Equal(t, ChannelFeatureNone, chs.File.Editing)
+	assert.Equal(t, ChannelFeatureReceive, chs.File.Quoting)
+	assert.Equal(t, ChannelFeatureReceive, chs.File.Deleting)
+	assert.Equal(t, 1, chs.File.MaxItemsCount)
+	assert.Equal(t, uint16(777), chs.File.NoteMaxCharsCount)
+
+	assert.Equal(t, ChannelFeatureReceive, chs.Suggestions.Text)
+	assert.Equal(t, ChannelFeatureReceive, chs.Suggestions.Email)
+	assert.Equal(t, ChannelFeatureReceive, chs.Suggestions.Phone)
 }
 
 func TestMgClient_Users(t *testing.T) {
