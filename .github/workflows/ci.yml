@@ -20,6 +20,17 @@ jobs:
     steps:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v2
+      - name: Set up latest Go 1.x version
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1'
+      - name: Get dependencies
+        run: |
+          go get -v github.com/google/go-querystring/query
+          go get -v github.com/stretchr/testify/assert
+          go get -v github.com/joho/godotenv
+          go get -v github.com/h2non/gock
+          cp .env.dist .env
       - name: Lint code with golangci-lint
         uses: golangci/golangci-lint-action@v2
         with:
