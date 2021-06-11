@@ -26,10 +26,7 @@ jobs:
           go-version: '^1'
       - name: Get dependencies
         run: |
-          go get -v github.com/google/go-querystring/query
-          go get -v github.com/stretchr/testify/assert
-          go get -v github.com/joho/godotenv
-          go get -v github.com/h2non/gock
+          go mod tidy
           cp .env.dist .env
       - name: Lint code with golangci-lint
         uses: golangci/golangci-lint-action@v2
@@ -41,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go-version: ['1.13', '1.14', '1.15']
+        go-version: ['1.13', '1.14', '1.15', '1.16']
     steps:
       - name: Set up Go ${{ matrix.go-version }}
         uses: actions/setup-go@v2
@@ -51,10 +48,7 @@ jobs:
         uses: actions/checkout@v2
       - name: Get dependencies
         run: |
-          go get -v github.com/google/go-querystring/query
-          go get -v github.com/stretchr/testify/assert
-          go get -v github.com/joho/godotenv
-          go get -v github.com/h2non/gock
+          go mod tidy
           cp .env.dist .env
       - name: Tests
         run: go test -v ./... -cover -coverprofile=coverage.txt -covermode=atomic
