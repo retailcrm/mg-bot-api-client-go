@@ -12,9 +12,9 @@ import (
 	"testing"
 	"time"
 
-	"github.com/h2non/gock"
 	"github.com/joho/godotenv"
 	"github.com/stretchr/testify/assert"
+	"gopkg.in/h2non/gock.v1"
 )
 
 const (
