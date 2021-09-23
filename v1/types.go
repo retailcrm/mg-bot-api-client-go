@@ -413,9 +413,10 @@ type (
 	}
 
 	SystemMessage struct {
-		Action string               `json:"action"`
-		Dialog *SystemMessageDialog `json:"dialog,omitempty"`
-		User   *UserRef             `json:"user,omitempty"`
+		Action      string               `json:"action"`
+		Dialog      *SystemMessageDialog `json:"dialog,omitempty"`
+		User        *UserRef             `json:"user,omitempty"`
+		Responsible *UserRef             `json:"responsible,omitempty"`
 	}
 
 	SystemMessageDialog struct {
