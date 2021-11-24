@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -829,4 +830,32 @@ func RandStringBytesMaskImprSrc(n int) string {
 	}
 
 	return string(b)
+}
+
+func TestMgClient_DebugNoLogger(t *testing.T) {
+	c := client()
+	c.Debug = true
+
+	var buf bytes.Buffer
+	log.SetOutput(&buf)
+	defer func() {
+		log.SetOutput(os.Stderr)
+	}()
+
+	c.writeLog("Test log string")
+
+	assert.Contains(t, buf.String(), "Test log string")
+}
+
+func TestMgClient_DebugWithLogger(t *testing.T) {
+	var buf bytes.Buffer
+	logger := log.New(&buf, "Custom log prefix ", 0)
+
+	c := client()
+	c.Debug = true
+	c.WithLogger(logger)
+
+	c.writeLog("Test log string")
+
+	assert.Contains(t, buf.String(), "Custom log prefix Test log string")
 }
