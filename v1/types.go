@@ -83,6 +83,7 @@ type MgClient struct {
 	Token      string `json:"token"`
 	Debug      bool   `json:"debug"`
 	httpClient *http.Client
+	logger     BasicLogger `json:"-"`
 }
 
 // Request types

@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"io"
 	"io/ioutil"
-	"log"
 	"net/http"
 )
 
@@ -72,7 +71,7 @@ func makeRequest(reqType, url string, buf io.Reader, c *MgClient) ([]byte, int, 
 	req.Header.Set("X-Bot-Token", c.Token)
 
 	if c.Debug {
-		log.Printf("MG BOT API Request: %s %s %s %+v", reqType, url, c.Token, buf)
+		c.writeLog("MG BOT API Request: %s %s %s %+v", reqType, url, c.Token, buf)
 	}
 
 	resp, err := c.httpClient.Do(req)
@@ -91,7 +90,7 @@ func makeRequest(reqType, url string, buf io.Reader, c *MgClient) ([]byte, int, 
 	}
 
 	if c.Debug {
-		log.Printf("MG BOT API Response: %s", res)
+		c.writeLog("MG BOT API Response: %s", res)
 	}
 
 	return res, resp.StatusCode, err
