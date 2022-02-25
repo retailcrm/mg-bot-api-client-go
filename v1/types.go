@@ -437,10 +437,13 @@ type (
 	}
 
 	Attachment struct {
-		ID      uint64 `json:"id"`
-		Mime    string `json:"type"`
-		Caption string `json:"caption"`
-		Size    uint64 `json:"size"`
+		ID         uint64  `json:"id"`
+		Mime       string  `json:"type"`
+		Caption    string  `json:"caption"`
+		Size       uint64  `json:"size"`
+		PreviewURL *string `json:"preview_url,omitempty"`
+		Height     *uint64 `json:"height,omitempty"`
+		Width      *uint64 `json:"width,omitempty"`
 	}
 
 	MessageProduct struct {
