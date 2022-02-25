@@ -405,6 +405,7 @@ type (
 		Order   *MessageOrder   `json:"order,omitempty"`
 		*TextMessage
 		*SystemMessage
+		*AttachmentList
 	}
 
 	TextMessage struct {
@@ -429,6 +430,17 @@ type (
 		Content string   `json:"content"`
 		Time    string   `json:"time"`
 		From    *UserRef `json:"from"`
+	}
+
+	AttachmentList struct {
+		Items []Attachment `json:"items"`
+	}
+
+	Attachment struct {
+		ID      uint64 `json:"id"`
+		Mime    string `json:"type"`
+		Caption string `json:"caption"`
+		Size    uint64 `json:"size"`
 	}
 
 	MessageProduct struct {
