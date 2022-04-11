@@ -437,7 +437,7 @@ type (
 	}
 
 	Attachment struct {
-		ID         uint64  `json:"id"`
+		ID         string  `json:"id"`
 		Mime       string  `json:"type"`
 		Caption    string  `json:"caption"`
 		Size       uint64  `json:"size"`
