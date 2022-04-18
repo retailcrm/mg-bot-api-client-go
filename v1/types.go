@@ -434,6 +434,7 @@ type (
 
 	AttachmentList struct {
 		Items []Attachment `json:"items"`
+		Note  string       `json:"note"`
 	}
 
 	Attachment struct {
