@@ -41,6 +41,7 @@ const (
 	WsBotUpdated             string = "bot_updated"
 	WsEventChannelUpdated    string = "channel_updated"
 	WsEventSettingsUpdated   string = "settings_updated"
+	WsEventChatsDeleted      string = "chats_deleted"
 
 	ChannelFeatureNone    string = "none"
 	ChannelFeatureReceive string = "receive"
@@ -723,5 +724,9 @@ type (
 	WsEventUserOnlineUpdatedData struct {
 		User   *UserRef `json:"user"`
 		Online bool     `json:"online"`
+	}
+
+	WsEventChatsDeletedData struct {
+		ChatIds []int64 `json:"chat_ids"`
 	}
 )
