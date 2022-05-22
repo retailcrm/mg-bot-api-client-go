@@ -91,6 +91,7 @@ func main() {
 			Scope:   "public",
 			Content: "Bonjour!",
 			ChatID:  eventData.Message.ChatID,
+			Type:    "text",
 		}
 
 		_, status, err := client.MessageSend(message)
