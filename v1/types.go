@@ -722,8 +722,8 @@ type (
 	}
 
 	WsEventUserOnlineUpdatedData struct {
-		User   *UserRef `json:"user"`
-		Online bool     `json:"online"`
+		User   *UsersResponseItem `json:"user"`
+		Online bool               `json:"online"`
 	}
 
 	WsEventChatsDeletedData struct {
