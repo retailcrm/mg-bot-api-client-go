@@ -729,4 +729,8 @@ type (
 	WsEventChatsDeletedData struct {
 		ChatIds []int64 `json:"chat_ids"`
 	}
+
+	WsEventChannelUpdatedData struct {
+		Channel *ChannelResponseItem `json:"channel"`
+	}
 )
