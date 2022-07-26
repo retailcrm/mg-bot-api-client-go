@@ -512,7 +512,7 @@ type (
 
 	UserRef struct {
 		ID         uint64 `json:"id"`
-		ExternalID uint64 `json:"external_id"`
+		ExternalID string `json:"external_id"`
 		Avatar     string `json:"avatar"`
 		Type       string `json:"type"`
 		Name       string `json:"name"`
