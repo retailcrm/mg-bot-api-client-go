@@ -256,17 +256,18 @@ type (
 	}
 
 	UsersResponseItem struct {
-		ID         uint64 `json:"id"`
-		ExternalID string `json:"external_id,omitempty"`
-		Username   string `json:"username,omitempty"`
-		FirstName  string `json:"first_name,omitempty"`
-		LastName   string `json:"last_name,omitempty"`
-		CreatedAt  string `json:"created_at"`
-		UpdatedAt  string `json:"updated_at,omitempty"`
-		RevokedAt  string `json:"revoked_at,omitempty"`
-		IsOnline   bool   `json:"is_online"`
-		IsActive   bool   `json:"is_active"`
-		Avatar     string `json:"avatar_url,omitempty"`
+		ID               uint64 `json:"id"`
+		ExternalID       string `json:"external_id,omitempty"`
+		Username         string `json:"username,omitempty"`
+		FirstName        string `json:"first_name,omitempty"`
+		LastName         string `json:"last_name,omitempty"`
+		CreatedAt        string `json:"created_at"`
+		UpdatedAt        string `json:"updated_at,omitempty"`
+		RevokedAt        string `json:"revoked_at,omitempty"`
+		IsOnline         bool   `json:"is_online"`
+		IsActive         bool   `json:"is_active"`
+		IsSupportAccount bool   `json:"is_support_account"`
+		Avatar           string `json:"avatar_url,omitempty"`
 	}
 
 	CustomersResponseItem struct {
