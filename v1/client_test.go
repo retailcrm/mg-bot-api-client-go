@@ -214,7 +214,7 @@ func TestMgClient_Users(t *testing.T) {
 	gock.New(mgURL).
 		Get("/api/bot/v1/users").
 		Reply(200).
-		BodyString(`[{"id": 1, "external_id":"1", "username": "Test", "first_name":"Test", "last_name":"Test", "created_at": "2018-01-01T00:00:00.000000Z", "is_active": true, "is_online": true}]`)
+		BodyString(`[{"id": 1, "external_id":"1", "username": "Test", "first_name":"Test", "last_name":"Test", "created_at": "2018-01-01T00:00:00.000000Z", "is_active": true, "is_online": true, "is_support_account": true}]`)
 
 	req := UsersRequest{Active: 1}
 
@@ -227,7 +227,15 @@ func TestMgClient_Users(t *testing.T) {
 	assert.NotEmpty(t, data)
 
 	for _, user := range data {
-		assert.NotEmpty(t, user.FirstName)
+		assert.Equal(t, uint64(1), user.ID)
+		assert.Equal(t, "1", user.ExternalID)
+		assert.Equal(t, "Test", user.Username)
+		assert.Equal(t, "Test", user.FirstName)
+		assert.Equal(t, "Test", user.LastName)
+		assert.Equal(t, "2018-01-01T00:00:00.000000Z", user.CreatedAt)
+		assert.Equal(t, true, user.IsActive)
+		assert.Equal(t, true, user.IsOnline)
+		assert.Equal(t, true, user.IsSupportAccount)
 	}
 }
 
