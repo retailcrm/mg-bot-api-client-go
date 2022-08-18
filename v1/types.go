@@ -512,17 +512,18 @@ type (
 	}
 
 	UserRef struct {
-		ID         uint64 `json:"id"`
-		ExternalID string `json:"external_id"`
-		Avatar     string `json:"avatar"`
-		Type       string `json:"type"`
-		Name       string `json:"name"`
-		FirstName  string `json:"first_name,omitempty"`
-		LastName   string `json:"last_name,omitempty"`
-		Phone      string `json:"phone,omitempty"`
-		Email      string `json:"email,omitempty"`
-		IsAdmin    bool   `json:"is_admin"`
-		Available  bool   `json:"available"`
+		ID                 uint64 `json:"id"`
+		ExternalID         string `json:"external_id"`
+		Avatar             string `json:"avatar"`
+		Type               string `json:"type"`
+		Name               string `json:"name"`
+		FirstName          string `json:"first_name,omitempty"`
+		LastName           string `json:"last_name,omitempty"`
+		Phone              string `json:"phone,omitempty"`
+		Email              string `json:"email,omitempty"`
+		IsAdmin            bool   `json:"is_admin"`
+		Available          bool   `json:"available"`
+		IsTechnicalAccount bool   `json:"is_technical_account"`
 	}
 
 	Channel struct {
