@@ -704,6 +704,7 @@ type (
 
 	WsEventUserUpdatedData struct {
 		*UserRef
+		IsActive bool `json:"is_active"`
 	}
 
 	WsEventCustomerUpdatedData struct {
