@@ -264,7 +264,9 @@ type (
 		CreatedAt          string `json:"created_at"`
 		UpdatedAt          string `json:"updated_at,omitempty"`
 		RevokedAt          string `json:"revoked_at,omitempty"`
+		Available          bool   `json:"available"`
 		IsOnline           bool   `json:"is_online"`
+		Connected          bool   `json:"connected"`
 		IsActive           bool   `json:"is_active"`
 		IsTechnicalAccount bool   `json:"is_technical_account"`
 		Avatar             string `json:"avatar_url,omitempty"`
@@ -726,8 +728,9 @@ type (
 	}
 
 	WsEventUserOnlineUpdatedData struct {
-		User   *UserRef `json:"user"`
-		Online bool     `json:"online"`
+		User      *UserRef `json:"user"`
+		Online    bool     `json:"online"`
+		Connected bool     `json:"connected"`
 	}
 
 	WsEventChatsDeletedData struct {
