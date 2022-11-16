@@ -867,3 +867,104 @@ func TestMgClient_DebugWithLogger(t *testing.T) {
 
 	assert.Contains(t, buf.String(), "Custom log prefix Test log string")
 }
+
+func TestMgClient_SuccessChatsByCustomerId(t *testing.T) {
+	defer gock.Off()
+	customerID := uint64(191140)
+	gock.New(mgURL).
+		Path("/api/bot/v1/chats").
+		MatchParam("customer_id", fmt.Sprintf("%d", customerID)).
+		MatchHeader("X-Bot-Token", mgToken).
+		Reply(http.StatusOK).
+		JSON(getJSONResponseChats())
+
+	apiClient := client()
+	chatsRequest := ChatsRequest{
+		CustomerID: customerID,
+	}
+
+	resp, statusCode, err := apiClient.Chats(chatsRequest)
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusOK, statusCode)
+	assert.Equal(t, 1, len(resp))
+	assert.Equal(t, uint64(9000), resp[0].ID)
+	assert.Equal(t, uint64(8000), resp[0].Channel.ID)
+	assert.Equal(t, customerID, resp[0].Customer.ID)
+	assert.Equal(t, "Имя Фамилия", resp[0].Customer.Name)
+	assert.Equal(t, "Имя", resp[0].Customer.FirstName)
+	assert.Equal(t, "Фамилия", resp[0].Customer.LastName)
+}
+
+func getJSONResponseChats() string {
+	return `[
+		{
+			"id": 9000,
+			"channel": {
+				"id": 8000,
+				"avatar": "",
+				"transport_id": 555,
+				"type": "transport",
+				"settings": {
+					"status": {
+						"delivered": "send"
+					},
+					"text": {
+						"creating": "both",
+						"editing": "both",
+						"quoting": "both",
+						"deleting": "receive",
+						"max_chars_count": 4096
+					},
+					"product": {
+						"creating": "receive",
+						"editing": "receive"
+					},
+					"order": {
+						"creating": "receive",
+						"editing": "receive"
+					},
+					"image": {
+						"creating": "both",
+						"editing": "both",
+						"quoting": "both",
+						"deleting": "receive",
+						"max_items_count": 10
+					},
+					"file": {
+						"creating": "both",
+						"editing": "both",
+						"quoting": "both",
+						"deleting": "receive",
+						"max_items_count": 1
+					},
+					"audio": {
+						"creating": "both",
+						"quoting": "both",
+						"deleting": "receive",
+						"max_items_count": 1
+					},
+					"suggestions": {
+						"text": "both",
+						"email": "both",
+						"phone": "both"
+					}
+				},
+				"name": "@test_bot123",
+				"is_active": false
+			},
+			"customer": {
+				"id": 191140,
+				"external_id": "",
+				"type": "customer",
+				"avatar": "",
+				"name": "Имя Фамилия",
+				"username": "Имя",
+				"first_name": "Имя",
+				"last_name": "Фамилия"
+			},
+			"last_activity": "2022-10-28T13:17:38+03:00",
+			"created_at": "2022-10-07T14:00:24.795382Z",
+			"updated_at": "2022-10-28T12:19:04.834592Z"
+		}
+	]`
+}
