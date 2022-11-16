@@ -286,6 +286,7 @@ type (
 		Language   string `json:"language,omitempty"`
 		Phone      string `json:"phone,omitempty"`
 		Email      string `json:"email,omitempty"`
+		Utm        *Utm   `json:"utm,omitempty"`
 	}
 
 	ChatResponseItem struct {
@@ -590,6 +591,14 @@ type (
 	Item struct {
 		ID      string `json:"id"`
 		Caption string `json:"caption"`
+	}
+
+	Utm struct {
+		Source   string `json:"source"`
+		Medium   string `json:"medium"`
+		Campaign string `json:"campaign"`
+		Term     string `json:"term"`
+		Content  string `json:"content"`
 	}
 )
 
