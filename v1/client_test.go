@@ -244,10 +244,44 @@ func TestMgClient_Customers(t *testing.T) {
 
 	defer gock.Off()
 
+	response := `
+	[
+		{
+			"id": 1,
+			"channel_id": 1, 
+			"created_at": 
+			"2018-01-01T00:00:00.000000Z", 
+			"utm": {
+				"source": "test"
+			}
+		},
+		{
+			"id": 2,
+			"channel_id": 1, 
+			"created_at": 
+			"2018-01-01T00:00:00.000000Z", 
+			"utm": {
+				"source": null
+			}
+		},
+		{
+			"id": 3,
+			"channel_id": 1, 
+			"created_at": 
+			"2018-01-01T00:00:00.000000Z", 
+			"utm": null
+		},
+		{
+			"id": 4,
+			"channel_id": 1, 
+			"created_at": "2018-01-01T00:00:00.000000Z"
+		}
+	]`
+
 	gock.New(mgURL).
 		Get("/api/bot/v1/customers").
 		Reply(200).
-		BodyString(`[{"id": 1,"channel_id": 1, "created_at": "2018-01-01T00:00:00.000000Z"}]`)
+		BodyString(response)
 
 	req := CustomersRequest{}
 
@@ -262,6 +296,11 @@ func TestMgClient_Customers(t *testing.T) {
 	for _, customer := range data {
 		assert.NotEmpty(t, customer.ChannelId)
 	}
+
+	assert.Equal(t, "test", data[0].Utm.Source)
+	assert.Equal(t, "", data[1].Utm.Source)
+	assert.Nil(t, data[2].Utm)
+	assert.Nil(t, data[3].Utm)
 }
 
 func TestMgClient_Chats(t *testing.T) {
