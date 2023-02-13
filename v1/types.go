@@ -96,7 +96,7 @@ type (
 		Role   string `url:"role,omitempty"`
 		Since  string `url:"since,omitempty"`
 		Until  string `url:"until,omitempty"`
-		Limit  int    `url:"int,omitempty"`
+		Limit  int    `url:"limit,omitempty"`
 	}
 
 	ChannelsRequest struct {
@@ -105,7 +105,7 @@ type (
 		Active uint8    `url:"active,omitempty"`
 		Since  string   `url:"since,omitempty"`
 		Until  string   `url:"until,omitempty"`
-		Limit  int      `url:"int,omitempty"`
+		Limit  int      `url:"limit,omitempty"`
 	}
 
 	UsersRequest struct {
@@ -115,7 +115,7 @@ type (
 		Active     uint8  `url:"active,omitempty"`
 		Since      string `url:"since,omitempty"`
 		Until      string `url:"until,omitempty"`
-		Limit      int    `url:"int,omitempty"`
+		Limit      int    `url:"limit,omitempty"`
 	}
 
 	CustomersRequest struct {
@@ -123,7 +123,7 @@ type (
 		ExternalID string `url:"external_id,omitempty" json:"external_id"`
 		Since      string `url:"since,omitempty"`
 		Until      string `url:"until,omitempty"`
-		Limit      int    `url:"int,omitempty"`
+		Limit      int    `url:"limit,omitempty"`
 	}
 
 	ChatsRequest struct {
@@ -133,7 +133,7 @@ type (
 		CustomerID  uint64 `url:"customer_id,omitempty" json:"customer_id"`
 		Since       string `url:"since,omitempty"`
 		Until       string `url:"until,omitempty"`
-		Limit       int    `url:"int,omitempty"`
+		Limit       int    `url:"limit,omitempty"`
 	}
 
 	MembersRequest struct {
@@ -142,7 +142,7 @@ type (
 		State  string `url:"state,omitempty"`
 		Since  string `url:"since,omitempty"`
 		Until  string `url:"until,omitempty"`
-		Limit  int    `url:"int,omitempty"`
+		Limit  int    `url:"limit,omitempty"`
 	}
 
 	DialogsRequest struct {
@@ -154,7 +154,7 @@ type (
 		Active uint8  `url:"active,omitempty"`
 		Since  string `url:"since,omitempty"`
 		Until  string `url:"until,omitempty"`
-		Limit  int    `url:"int,omitempty"`
+		Limit  int    `url:"limit,omitempty"`
 	}
 
 	DialogAssignRequest struct {
@@ -176,7 +176,7 @@ type (
 		Type        string `url:"type,omitempty"`
 		Since       string `url:"since,omitempty"`
 		Until       string `url:"until,omitempty"`
-		Limit       int    `url:"int,omitempty"`
+		Limit       int    `url:"limit,omitempty"`
 	}
 
 	MessageSendRequest struct {
@@ -216,7 +216,7 @@ type (
 		Name  string `url:"name,omitempty"`
 		Since string `url:"since,omitempty"`
 		Until string `url:"until,omitempty"`
-		Limit int    `url:"int,omitempty"`
+		Limit int    `url:"limit,omitempty"`
 	}
 
 	CommandEditRequest struct {
