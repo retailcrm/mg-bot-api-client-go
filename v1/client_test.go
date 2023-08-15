@@ -362,7 +362,7 @@ func TestMgClient_Dialogs(t *testing.T) {
 		Reply(200).
 		BodyString(`[{"id": 1, "chat_id": 1, "created_at": "2018-01-01T00:00:00.000000Z"}]`)
 
-	req := DialogsRequest{Active: 0}
+	req := DialogsRequest{Active: 0, SinceID: 1}
 
 	data, status, err := c.Dialogs(req)
 	if err != nil {

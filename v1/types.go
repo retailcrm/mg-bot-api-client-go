@@ -146,15 +146,16 @@ type (
 	}
 
 	DialogsRequest struct {
-		ID     uint64 `url:"id,omitempty"`
-		ChatID string `url:"chat_id,omitempty" json:"chat_id"`
-		UserID string `url:"user_id,omitempty" json:"user_id"`
-		BotID  string `url:"bot_id,omitempty" json:"bot_id"`
-		Assign uint8  `url:"assign,omitempty"`
-		Active uint8  `url:"active,omitempty"`
-		Since  string `url:"since,omitempty"`
-		Until  string `url:"until,omitempty"`
-		Limit  int    `url:"limit,omitempty"`
+		ID      uint64 `url:"id,omitempty"`
+		ChatID  string `url:"chat_id,omitempty" json:"chat_id"`
+		UserID  string `url:"user_id,omitempty" json:"user_id"`
+		BotID   string `url:"bot_id,omitempty" json:"bot_id"`
+		Assign  uint8  `url:"assign,omitempty"`
+		Active  uint8  `url:"active,omitempty"`
+		Since   string `url:"since,omitempty"`
+		SinceID int    `url:"since_id,omitempty"`
+		Until   string `url:"until,omitempty"`
+		Limit   int    `url:"limit,omitempty"`
 	}
 
 	DialogAssignRequest struct {
