@@ -120,6 +120,7 @@ type (
 
 	CustomersRequest struct {
 		ID         uint64 `url:"id,omitempty"`
+		ChannelID  uint64 `url:"channel_id,omitempty" json:"channel_id"`
 		ExternalID string `url:"external_id,omitempty" json:"external_id"`
 		Since      string `url:"since,omitempty"`
 		Until      string `url:"until,omitempty"`
