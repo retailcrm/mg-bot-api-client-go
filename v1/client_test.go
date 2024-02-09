@@ -44,14 +44,12 @@ var (
 	debug, _ = strconv.ParseBool(os.Getenv("DEBUG"))
 )
 
-func client() *MgClient {
-	c := New(mgURL, mgToken)
-
+func client(opts ...Option) *MgClient {
 	if debug != false {
-		c.Debug = true
+		opts = append(opts, OptionDebug())
 	}
 
-	return c
+	return New(mgURL, mgToken, opts...)
 }
 
 func TestMgClient_Bots(t *testing.T) {
@@ -898,9 +896,7 @@ func TestMgClient_DebugWithLogger(t *testing.T) {
 	var buf bytes.Buffer
 	logger := log.New(&buf, "Custom log prefix ", 0)
 
-	c := client()
-	c.Debug = true
-	c.WithLogger(logger)
+	c := client(OptionDebug(), OptionLogger(logger))
 
 	c.writeLog("Test log string")
 

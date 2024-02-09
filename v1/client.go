@@ -14,16 +14,46 @@ import (
 	"github.com/google/go-querystring/query"
 )
 
+type Option func(*MgClient)
+
+// OptionHTTPClient set custom http.Client for MgClient
+func OptionHTTPClient(client *http.Client) func(*MgClient) {
+	return func(c *MgClient) {
+		c.httpClient = client
+	}
+}
+
+// OptionLogger sets the provided logger instance into the MgClient
+func OptionLogger(logger BasicLogger) func(*MgClient) {
+	return func(c *MgClient) {
+		c.logger = logger
+	}
+}
+
+// OptionDebug enables debug mode for MgClient
+func OptionDebug() func(*MgClient) {
+	return func(c *MgClient) {
+		c.Debug = true
+	}
+}
+
 // New initialize client
-func New(url string, token string) *MgClient {
-	return &MgClient{
+func New(url string, token string, opts ...Option) *MgClient {
+	c := &MgClient{
 		URL:        url,
 		Token:      token,
 		httpClient: &http.Client{Timeout: time.Minute},
 	}
+
+	for _, opt := range opts {
+		opt(c)
+	}
+
+	return c
 }
 
 // WithLogger sets the provided logger instance into the Client.
+// Deprecated: Use functional option OptionLogger instead
 func (c *MgClient) WithLogger(logger BasicLogger) *MgClient {
 	c.logger = logger
 	return c
