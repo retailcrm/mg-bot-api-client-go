@@ -473,6 +473,59 @@ func TestMgClient_DialogClose(t *testing.T) {
 	assert.Equal(t, http.StatusBadRequest, status)
 }
 
+func TestMgClient_DialogsTagsAdd(t *testing.T) {
+	c := client()
+
+	color := ColorBlue
+	req := DialogTagsAddRequest{
+		DialogID: uint64(1),
+		Tags: []TagsAdd{
+			{Name: "foo", ColorCode: nil},
+			{Name: "bar", ColorCode: &color},
+		},
+	}
+	r, _ := json.Marshal(req)
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Patch("/api/bot/v1/dialogs/1/tags/add").
+		JSON(r).
+		Reply(200).
+		BodyString(`{}`)
+
+	status, err := c.DialogsTagsAdd(req)
+
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusOK, status)
+}
+
+func TestMgClient_DialogsTagsDelete(t *testing.T) {
+	c := client()
+
+	req := DialogTagsDeleteRequest{
+		DialogID: uint64(1),
+		Tags: []TagsDelete{
+			{Name: "foo"},
+			{Name: "bar"},
+		},
+	}
+	r, _ := json.Marshal(req)
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Patch("/api/bot/v1/dialogs/1/tags/delete").
+		JSON(r).
+		Reply(200).
+		BodyString(`{}`)
+
+	status, err := c.DialogTagsDelete(req)
+
+	assert.NoError(t, err)
+	assert.Equal(t, http.StatusOK, status)
+}
+
 func TestMgClient_Messages(t *testing.T) {
 	c := client()
 
