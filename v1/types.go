@@ -76,6 +76,19 @@ const (
 	SuggestionTypeText  = "text"
 	SuggestionTypeEmail = "email"
 	SuggestionTypePhone = "phone"
+
+	ColorLightRed         = "light-red"
+	ColorLightBlue        = "light-blue"
+	ColorLightGreen       = "light-green"
+	ColorLightOrange      = "light-orange"
+	ColorLightGray        = "light-gray"
+	ColorLightGrayishBlue = "light-grayish-blue"
+	ColorRed              = "red"
+	ColorBlue             = "blue"
+	ColorGreen            = "green"
+	ColorOrange           = "orange"
+	ColorGray             = "gray"
+	ColorGrayishBlue      = "grayish-blue"
 )
 
 // MgClient type
@@ -164,6 +177,25 @@ type (
 		DialogID uint64 `url:"dialog_id,omitempty" json:"dialog_id"`
 		UserID   uint64 `url:"user_id,omitempty" json:"user_id"`
 		BotID    uint64 `url:"bot_id,omitempty" json:"bot_id"`
+	}
+
+	DialogTagsAddRequest struct {
+		DialogID uint64    `url:"dialog_id,omitempty"`
+		Tags     []TagsAdd `json:"tags"`
+	}
+
+	TagsAdd struct {
+		Name      string  `json:"name"`
+		ColorCode *string `json:"color_code"`
+	}
+
+	DialogTagsDeleteRequest struct {
+		DialogID uint64       `url:"dialog_id,omitempty"`
+		Tags     []TagsDelete `json:"tags"`
+	}
+
+	TagsDelete struct {
+		Name string `json:"name"`
 	}
 
 	MessagesRequest struct {

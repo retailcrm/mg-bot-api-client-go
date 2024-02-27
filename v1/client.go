@@ -427,6 +427,50 @@ func (c *MgClient) DialogClose(request uint64) (map[string]interface{}, int, err
 	return resp, status, err
 }
 
+// DialogsTagsAdd allows to assign dialog to Bot or User
+//
+// Example:
+//
+//	var client = v1.New("https://demo.url", "09jIJ")
+//
+//	data, status, err := client.DialogsTagsAdd(DialogTagsAddRequest{DialogID: uint64(1),Tags: []TagsAdd{{Name: "foo"}}})
+func (c *MgClient) DialogsTagsAdd(request DialogTagsAddRequest) (int, error) {
+	outgoing, _ := json.Marshal(&request)
+
+	data, status, err := c.PatchRequest(fmt.Sprintf("/dialogs/%d/tags/add", request.DialogID), outgoing)
+	if err != nil {
+		return status, err
+	}
+
+	if status != http.StatusOK {
+		return status, c.Error(data)
+	}
+
+	return status, err
+}
+
+// DialogTagsDelete allows to assign dialog to Bot or User
+//
+// Example:
+//
+//	var client = v1.New("https://demo.url", "09jIJ")
+//
+//	data, status, err := client.DialogsTagsAdd(DialogTagsDelete{DialogID: uint64(1),Tags: []TagsDelete{{Name: "foo"}}})
+func (c *MgClient) DialogTagsDelete(request DialogTagsDeleteRequest) (int, error) {
+	outgoing, _ := json.Marshal(&request)
+
+	data, status, err := c.PatchRequest(fmt.Sprintf("/dialogs/%d/tags/delete", request.DialogID), outgoing)
+	if err != nil {
+		return status, err
+	}
+
+	if status != http.StatusOK {
+		return status, c.Error(data)
+	}
+
+	return status, err
+}
+
 // Messages get all available messages
 //
 // Example:
