@@ -89,6 +89,10 @@ const (
 	ColorOrange           = "orange"
 	ColorGray             = "gray"
 	ColorGrayishBlue      = "grayish-blue"
+
+	WaitingLevelNone    = "none"
+	WaitingLevelWarning = "warning"
+	WaitingLevelDanger  = "danger"
 )
 
 // MgClient type
@@ -605,6 +609,12 @@ type (
 		LastActivity string   `json:"last_activity"`
 	}
 
+	WaitingChat struct {
+		Chat
+
+		WaitingLevel string `json:"waiting_level"`
+	}
+
 	Member struct {
 		IsAuthor bool     `json:"is_author"`
 		State    string   `json:"state"`
@@ -723,10 +733,12 @@ type (
 		Message *Message `json:"message"`
 	}
 
+	// Deprecated: Use WsEventWaitingChatCreatedData instead.
 	WsEventChatCreatedData struct {
 		Chat *Chat `json:"chat"`
 	}
 
+	// Deprecated: Use WsEventWaitingChatUpdatedData instead.
 	WsEventChatUpdatedData struct {
 		Chat *Chat `json:"chat"`
 	}
@@ -784,5 +796,13 @@ type (
 
 	WsEventChannelUpdatedData struct {
 		Channel *ChannelResponseItem `json:"channel"`
+	}
+
+	WsEventWaitingChatCreatedData struct {
+		Chat *WaitingChat `json:"chat"`
+	}
+
+	WsEventWaitingChatUpdatedData struct {
+		Chat *WaitingChat `json:"chat"`
 	}
 )
