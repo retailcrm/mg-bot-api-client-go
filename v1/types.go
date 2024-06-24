@@ -146,13 +146,14 @@ type (
 	}
 
 	ChatsRequest struct {
-		ID          uint64 `url:"id,omitempty"`
-		ChannelID   uint64 `url:"channel_id,omitempty" json:"channel_id"`
-		ChannelType string `url:"channel_type,omitempty" json:"channel_type"`
-		CustomerID  uint64 `url:"customer_id,omitempty" json:"customer_id"`
-		Since       string `url:"since,omitempty"`
-		Until       string `url:"until,omitempty"`
-		Limit       int    `url:"limit,omitempty"`
+		ID                 uint64 `url:"id,omitempty"`
+		ChannelID          uint64 `url:"channel_id,omitempty" json:"channel_id"`
+		ChannelType        string `url:"channel_type,omitempty" json:"channel_type"`
+		CustomerID         uint64 `url:"customer_id,omitempty" json:"customer_id"`
+		CustomerExternalID string `url:"customer_external_id,omitempty" json:"customer_external_id"`
+		Since              string `url:"since,omitempty"`
+		Until              string `url:"until,omitempty"`
+		Limit              int    `url:"limit,omitempty"`
 	}
 
 	MembersRequest struct {
