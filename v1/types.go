@@ -43,6 +43,8 @@ const (
 	WsEventSettingsUpdated   string = "settings_updated"
 	WsEventChatsDeleted      string = "chats_deleted"
 
+	WsOptionIncludeMassCommunication WsOptionParam = "include_mass_communication"
+
 	ChannelFeatureNone    string = "none"
 	ChannelFeatureReceive string = "receive"
 	ChannelFeatureSend    string = "send"
@@ -432,6 +434,11 @@ type (
 	EventMeta struct {
 		Timestamp int64 `json:"timestamp"`
 	}
+)
+
+// WS options
+type (
+	WsOptionParam string
 )
 
 // Single entity types

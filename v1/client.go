@@ -912,8 +912,20 @@ func (c *MgClient) UploadFileByURL(request UploadFileByUrlRequest) (UploadFileRe
 	return resp, status, err
 }
 
+type wsOptions struct {
+	params []string
+}
+
+type WsOption interface {
+	apply(*wsOptions)
+}
+
+func (c WsOptionParam) apply(opts *wsOptions) {
+	opts.params = append(opts.params, string(c))
+}
+
 // WsMeta let you receive url & headers to open web socket connection
-func (c *MgClient) WsMeta(events []string) (string, http.Header, error) {
+func (c *MgClient) WsMeta(events []string, opts ...WsOption) (string, http.Header, error) {
 	var url string
 
 	if len(events) < 1 {
@@ -922,6 +934,14 @@ func (c *MgClient) WsMeta(events []string) (string, http.Header, error) {
 	}
 
 	url = fmt.Sprintf("%s%s%s%s", strings.Replace(c.URL, "https", "wss", 1), prefix, "/ws?events=", strings.Join(events[:], ","))
+
+	var wsOpts wsOptions
+	for _, opt := range opts {
+		opt.apply(&wsOpts)
+	}
+	if len(wsOpts.params) > 0 {
+		url = fmt.Sprintf("%s&options=%s", url, strings.Join(wsOpts.params, ","))
+	}
 
 	if url == "" {
 		err := errors.New("empty WS URL")

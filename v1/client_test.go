@@ -846,6 +846,24 @@ func TestMgClient_CommandEditDelete(t *testing.T) {
 	t.Logf("%v", d)
 }
 
+func TestMgClient_WsMeta_With_Options(t *testing.T) {
+	c := client()
+	events := []string{"user_updated", "user_join_chat"}
+	options := []WsOption{WsOptionIncludeMassCommunication}
+
+	url, headers, err := c.WsMeta(events, options...)
+
+	if err != nil {
+		t.Errorf("%v", err)
+	}
+
+	resUrl := "wss://api.example.com/api/bot/v1/ws?events=user_updated,user_join_chat&options=include_mass_communication"
+	resToken := c.Token
+
+	assert.Equal(t, resUrl, url)
+	assert.Equal(t, resToken, headers["X-Bot-Token"][0])
+}
+
 func TestMgClient_WsMeta(t *testing.T) {
 	c := client()
 	events := []string{"user_updated", "user_join_chat"}
