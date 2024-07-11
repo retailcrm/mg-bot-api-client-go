@@ -849,9 +849,9 @@ func TestMgClient_CommandEditDelete(t *testing.T) {
 func TestMgClient_WsMeta_With_Options(t *testing.T) {
 	c := client()
 	events := []string{"user_updated", "user_join_chat"}
-	options := []WsParams{WsOptionIncludeMassCommunication}
+	params := []WsParams{WsOptionIncludeMassCommunication}
 
-	url, headers, err := c.WsMeta(events, options...)
+	url, headers, err := c.WsMeta(events, params...)
 
 	if err != nil {
 		t.Errorf("%v", err)

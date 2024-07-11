@@ -925,7 +925,7 @@ func (c WsOption) apply(opts *wsParams) {
 }
 
 // WsMeta let you receive url & headers to open web socket connection
-func (c *MgClient) WsMeta(events []string, opts ...WsParams) (string, http.Header, error) {
+func (c *MgClient) WsMeta(events []string, urlParams ...WsParams) (string, http.Header, error) {
 	var url string
 
 	if len(events) < 1 {
@@ -935,12 +935,12 @@ func (c *MgClient) WsMeta(events []string, opts ...WsParams) (string, http.Heade
 
 	url = fmt.Sprintf("%s%s%s%s", strings.Replace(c.URL, "https", "wss", 1), prefix, "/ws?events=", strings.Join(events[:], ","))
 
-	var wsOpts wsParams
-	for _, opt := range opts {
-		opt.apply(&wsOpts)
+	var params wsParams
+	for _, opt := range urlParams {
+		opt.apply(&params)
 	}
-	if len(wsOpts.options) > 0 {
-		url = fmt.Sprintf("%s&options=%s", url, strings.Join(wsOpts.options, ","))
+	if len(params.options) > 0 {
+		url = fmt.Sprintf("%s&options=%s", url, strings.Join(params.options, ","))
 	}
 
 	if url == "" {
