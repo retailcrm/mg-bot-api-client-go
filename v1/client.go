@@ -936,8 +936,8 @@ func (c *MgClient) WsMeta(events []string, urlParams ...WsParams) (string, http.
 	url = fmt.Sprintf("%s%s%s%s", strings.Replace(c.URL, "https", "wss", 1), prefix, "/ws?events=", strings.Join(events[:], ","))
 
 	var params wsParams
-	for _, opt := range urlParams {
-		opt.apply(&params)
+	for _, param := range urlParams {
+		param.apply(&params)
 	}
 	if len(params.options) > 0 {
 		url = fmt.Sprintf("%s&options=%s", url, strings.Join(params.options, ","))
