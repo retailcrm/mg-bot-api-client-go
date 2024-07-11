@@ -43,7 +43,7 @@ const (
 	WsEventSettingsUpdated   string = "settings_updated"
 	WsEventChatsDeleted      string = "chats_deleted"
 
-	WsOptionIncludeMassCommunication WsOptionParam = "include_mass_communication"
+	WsOptionIncludeMassCommunication WsOption = "include_mass_communication"
 
 	ChannelFeatureNone    string = "none"
 	ChannelFeatureReceive string = "receive"
@@ -438,7 +438,7 @@ type (
 
 // WS options
 type (
-	WsOptionParam string
+	WsOption string
 )
 
 // Single entity types
