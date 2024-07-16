@@ -154,6 +154,7 @@ type (
 		Since              string `url:"since,omitempty"`
 		Until              string `url:"until,omitempty"`
 		Limit              int    `url:"limit,omitempty"`
+		SinceID            int    `url:"since_id,omitempty"`
 	}
 
 	MembersRequest struct {

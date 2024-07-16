@@ -309,9 +309,15 @@ func TestMgClient_Chats(t *testing.T) {
 	gock.New(mgURL).
 		Get("/api/bot/v1/chats").
 		Reply(200).
-		BodyString(`[{"id": 1,"customer": {"id": 1, "name": "Test"}, "created_at": "2018-01-01T00:00:00.000000Z"}]`)
+		BodyString(`[
+			{"id": 2,"customer": {"id": 2, "name": "Foo"}, "created_at": "2018-01-01T00:00:00.000000Z"},
+			{"id": 3,"customer": {"id": 3, "name": "Bar"}, "created_at": "2018-01-02T00:00:00.000000Z"}
+		]`)
 
-	req := ChatsRequest{ChannelType: ChannelTypeTelegram}
+	req := ChatsRequest{
+		ChannelType: ChannelTypeTelegram,
+		SinceID:     1,
+	}
 
 	data, status, err := c.Chats(req)
 	if err != nil {
