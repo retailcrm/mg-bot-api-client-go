@@ -148,15 +148,16 @@ type (
 	}
 
 	ChatsRequest struct {
-		ID                 uint64 `url:"id,omitempty"`
-		ChannelID          uint64 `url:"channel_id,omitempty" json:"channel_id"`
-		ChannelType        string `url:"channel_type,omitempty" json:"channel_type"`
-		CustomerID         uint64 `url:"customer_id,omitempty" json:"customer_id"`
-		CustomerExternalID string `url:"customer_external_id,omitempty" json:"customer_external_id"`
-		Since              string `url:"since,omitempty"`
-		Until              string `url:"until,omitempty"`
-		Limit              int    `url:"limit,omitempty"`
-		SinceID            int    `url:"since_id,omitempty"`
+		ID                       uint64 `url:"id,omitempty"`
+		ChannelID                uint64 `url:"channel_id,omitempty" json:"channel_id"`
+		ChannelType              string `url:"channel_type,omitempty" json:"channel_type"`
+		CustomerID               uint64 `url:"customer_id,omitempty" json:"customer_id"`
+		CustomerExternalID       string `url:"customer_external_id,omitempty" json:"customer_external_id"`
+		Since                    string `url:"since,omitempty"`
+		Until                    string `url:"until,omitempty"`
+		Limit                    int    `url:"limit,omitempty"`
+		SinceID                  int    `url:"since_id,omitempty"`
+		IncludeMassCommunication uint8  `url:"include_mass_communication,omitempty"`
 	}
 
 	MembersRequest struct {
@@ -169,16 +170,17 @@ type (
 	}
 
 	DialogsRequest struct {
-		ID      uint64 `url:"id,omitempty"`
-		ChatID  string `url:"chat_id,omitempty" json:"chat_id"`
-		UserID  string `url:"user_id,omitempty" json:"user_id"`
-		BotID   string `url:"bot_id,omitempty" json:"bot_id"`
-		Assign  uint8  `url:"assign,omitempty"`
-		Active  uint8  `url:"active,omitempty"`
-		Since   string `url:"since,omitempty"`
-		SinceID int    `url:"since_id,omitempty"`
-		Until   string `url:"until,omitempty"`
-		Limit   int    `url:"limit,omitempty"`
+		ID                       uint64 `url:"id,omitempty"`
+		ChatID                   string `url:"chat_id,omitempty" json:"chat_id"`
+		UserID                   string `url:"user_id,omitempty" json:"user_id"`
+		BotID                    string `url:"bot_id,omitempty" json:"bot_id"`
+		Assign                   uint8  `url:"assign,omitempty"`
+		Active                   uint8  `url:"active,omitempty"`
+		Since                    string `url:"since,omitempty"`
+		SinceID                  int    `url:"since_id,omitempty"`
+		Until                    string `url:"until,omitempty"`
+		Limit                    int    `url:"limit,omitempty"`
+		IncludeMassCommunication uint8  `url:"include_mass_communication,omitempty"`
 	}
 
 	DialogAssignRequest struct {
@@ -207,19 +209,20 @@ type (
 	}
 
 	MessagesRequest struct {
-		ID          []int  `url:"id,omitempty"`
-		ChatID      uint64 `url:"chat_id,omitempty" json:"chat_id"`
-		DialogID    uint64 `url:"dialog_id,omitempty" json:"dialog_id"`
-		UserID      uint64 `url:"user_id,omitempty" json:"user_id"`
-		CustomerID  uint64 `url:"customer_id,omitempty" json:"customer_id"`
-		BotID       uint64 `url:"bot_id,omitempty" json:"bot_id"`
-		ChannelID   uint64 `url:"channel_id,omitempty" json:"channel_id"`
-		ChannelType string `url:"channel_type,omitempty" json:"channel_type"`
-		Scope       string `url:"scope,omitempty"`
-		Type        string `url:"type,omitempty"`
-		Since       string `url:"since,omitempty"`
-		Until       string `url:"until,omitempty"`
-		Limit       int    `url:"limit,omitempty"`
+		ID                       []int  `url:"id,omitempty"`
+		ChatID                   uint64 `url:"chat_id,omitempty" json:"chat_id"`
+		DialogID                 uint64 `url:"dialog_id,omitempty" json:"dialog_id"`
+		UserID                   uint64 `url:"user_id,omitempty" json:"user_id"`
+		CustomerID               uint64 `url:"customer_id,omitempty" json:"customer_id"`
+		BotID                    uint64 `url:"bot_id,omitempty" json:"bot_id"`
+		ChannelID                uint64 `url:"channel_id,omitempty" json:"channel_id"`
+		ChannelType              string `url:"channel_type,omitempty" json:"channel_type"`
+		Scope                    string `url:"scope,omitempty"`
+		Type                     string `url:"type,omitempty"`
+		Since                    string `url:"since,omitempty"`
+		Until                    string `url:"until,omitempty"`
+		Limit                    int    `url:"limit,omitempty"`
+		IncludeMassCommunication uint8  `url:"include_mass_communication,omitempty"`
 	}
 
 	MessageSendRequest struct {
