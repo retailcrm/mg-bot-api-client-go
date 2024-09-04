@@ -273,6 +273,11 @@ type (
 	UploadFileByUrlRequest struct {
 		Url string `json:"url"`
 	}
+
+	UpdateFileMetadataRequest struct {
+		ID            string `json:"-"`
+		Transcription string `json:"transcription,omitempty"`
+	}
 )
 
 // Response types
@@ -495,13 +500,21 @@ type (
 	}
 
 	Attachment struct {
-		ID         string  `json:"id"`
-		Mime       string  `json:"type"`
-		Caption    string  `json:"caption"`
-		Size       uint64  `json:"size"`
-		PreviewURL *string `json:"preview_url,omitempty"`
-		Height     *uint64 `json:"height,omitempty"`
-		Width      *uint64 `json:"width,omitempty"`
+		File
+
+		Caption string `json:"caption"`
+	}
+
+	File struct {
+		PreviewURL    *string `json:"preview_url,omitempty"`
+		Height        *uint64 `json:"height,omitempty"`
+		Width         *uint64 `json:"width,omitempty"`
+		Transcription string  `json:"transcription,omitempty"`
+		ID            string  `json:"id"`
+		Mime          string  `json:"type"`
+		Type          string  `json:"kind"`
+		Duration      int     `json:"duration,omitempty"`
+		Size          uint64  `json:"size"`
 	}
 
 	MessageProduct struct {

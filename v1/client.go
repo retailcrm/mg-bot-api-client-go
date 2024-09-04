@@ -912,6 +912,43 @@ func (c *MgClient) UploadFileByURL(request UploadFileByUrlRequest) (UploadFileRe
 	return resp, status, err
 }
 
+// UpdateFileMetadata update file metadata
+//
+// Example:
+//
+//	response, status, err := c.UpdateFileMetadata(UploadFileByUrlRequest{
+//		ID:  "e038aa39-2338-4285-be86-e2a0bb424daa"
+//		Transcription: "demo transcription",
+//	})
+//
+//	if err != nil {
+//		fmt.Printf("%v", err)
+//	}
+//
+//	fmt.Printf("%s\n%s", response.ID, status)
+func (c *MgClient) UpdateFileMetadata(request UpdateFileMetadataRequest) (UploadFileResponse, int, error) {
+	var resp UploadFileResponse
+	outgoing, err := json.Marshal(&request)
+	if err != nil {
+		return resp, 0, err
+	}
+
+	data, status, err := c.PutRequest(fmt.Sprintf("/files/%s/meta", request.ID), outgoing)
+	if err != nil {
+		return resp, status, err
+	}
+
+	if status != http.StatusOK {
+		return resp, status, c.Error(data)
+	}
+
+	if e := json.Unmarshal(data, &resp); e != nil {
+		return resp, status, e
+	}
+
+	return resp, status, err
+}
+
 type wsParams struct {
 	options []string
 }
