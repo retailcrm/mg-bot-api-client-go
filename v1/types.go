@@ -277,6 +277,8 @@ type (
 	UpdateFileMetadataRequest struct {
 		ID            string `json:"-"`
 		Transcription string `json:"transcription,omitempty"`
+		// Current status of transcription process. Available values: "in_progress", "ready", "error"
+		TranscriptionStatus string `json:"transcription_status,omitempty"`
 	}
 )
 
