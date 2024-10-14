@@ -344,16 +344,17 @@ type (
 	}
 
 	ChatResponseItem struct {
-		ID           uint64  `json:"id"`
-		Avatar       string  `json:"avatar"`
-		Name         string  `json:"name"`
-		Channel      Channel `json:"channel,omitempty"`
-		Customer     UserRef `json:"customer"`
-		AuthorID     uint64  `json:"author_id"`
-		LastMessage  Message `json:"last_message"`
-		LastActivity string  `json:"last_activity"`
-		CreatedAt    string  `json:"created_at"`
-		UpdatedAt    string  `json:"updated_at"`
+		ID              uint64    `json:"id"`
+		Avatar          string    `json:"avatar"`
+		Name            string    `json:"name"`
+		Channel         Channel   `json:"channel,omitempty"`
+		Customer        UserRef   `json:"customer"`
+		AuthorID        uint64    `json:"author_id"`
+		LastMessage     Message   `json:"last_message"`
+		LastUserMessage MessageID `json:"last_user_message"`
+		LastActivity    string    `json:"last_activity"`
+		CreatedAt       string    `json:"created_at"`
+		UpdatedAt       string    `json:"updated_at"`
 	}
 
 	MemberResponseItem struct {
@@ -468,6 +469,10 @@ type (
 		*TextMessage
 		*SystemMessage
 		*AttachmentList
+	}
+
+	MessageID struct {
+		ID uint64 `json:"id"`
 	}
 
 	TextMessage struct {
@@ -623,15 +628,16 @@ type (
 	}
 
 	Chat struct {
-		ID           uint64   `json:"id"`
-		Avatar       string   `json:"avatar"`
-		Name         string   `json:"name"`
-		Channel      *Channel `json:"channel,omitempty"`
-		Members      []Member `json:"members"`
-		Customer     *UserRef `json:"customer"`
-		AuthorID     uint64   `json:"author_id"`
-		LastMessage  *Message `json:"last_message"`
-		LastActivity string   `json:"last_activity"`
+		ID              uint64     `json:"id"`
+		Avatar          string     `json:"avatar"`
+		Name            string     `json:"name"`
+		Channel         *Channel   `json:"channel,omitempty"`
+		Members         []Member   `json:"members"`
+		Customer        *UserRef   `json:"customer"`
+		AuthorID        uint64     `json:"author_id"`
+		LastMessage     *Message   `json:"last_message"`
+		LastUserMessage *MessageID `json:"last_user_message"`
+		LastActivity    string     `json:"last_activity"`
 	}
 
 	WaitingChat struct {
