@@ -597,6 +597,7 @@ type (
 		IsAdmin            bool   `json:"is_admin"`
 		Available          bool   `json:"available"`
 		IsTechnicalAccount bool   `json:"is_technical_account"`
+		IsSystem           bool   `json:"is_system"`
 	}
 
 	Channel struct {
