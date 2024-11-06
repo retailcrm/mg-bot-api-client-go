@@ -1,4 +1,4 @@
-module github.com/retailcrm/mg-bot-api-client-go
+module github.com/opheugene/mg-bot-api-client-go
 
 go 1.13
 
