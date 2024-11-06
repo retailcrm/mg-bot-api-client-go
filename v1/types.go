@@ -353,6 +353,7 @@ type (
 		LastMessage     Message   `json:"last_message"`
 		LastUserMessage MessageID `json:"last_user_message"`
 		LastActivity    string    `json:"last_activity"`
+		LastDialog      Dialog    `json:"last_dialog"`
 		CreatedAt       string    `json:"created_at"`
 		UpdatedAt       string    `json:"updated_at"`
 	}
