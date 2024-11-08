@@ -52,6 +52,7 @@ const (
 
 	BotRoleDistributor string = "distributor"
 	BotRoleResponsible string = "responsible"
+	BotRoleHidden      string = "hidden"
 
 	MsgTypeText    string = "text"
 	MsgTypeSystem  string = "system"
