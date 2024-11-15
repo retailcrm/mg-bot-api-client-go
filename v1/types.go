@@ -354,6 +354,7 @@ type (
 		LastMessage     Message   `json:"last_message"`
 		LastUserMessage MessageID `json:"last_user_message"`
 		LastActivity    string    `json:"last_activity"`
+		LastDialog      Dialog    `json:"last_dialog"`
 		CreatedAt       string    `json:"created_at"`
 		UpdatedAt       string    `json:"updated_at"`
 	}
@@ -605,6 +606,7 @@ type (
 		IsAdmin            bool   `json:"is_admin"`
 		Available          bool   `json:"available"`
 		IsTechnicalAccount bool   `json:"is_technical_account"`
+		IsSystem           bool   `json:"is_system"`
 	}
 
 	Channel struct {
