@@ -466,6 +466,7 @@ type (
 		From    *UserRef        `json:"from"`
 		Product *MessageProduct `json:"product,omitempty"`
 		Order   *MessageOrder   `json:"order,omitempty"`
+		Dialog  *MessageDialog  `json:"dialog,omitempty"`
 		*TextMessage
 		*SystemMessage
 		*AttachmentList
@@ -482,13 +483,19 @@ type (
 	}
 
 	SystemMessage struct {
-		Action      string               `json:"action"`
+		Action string `json:"action"`
+		// Deprecated: Use Message.Dialog.ID instead.
 		Dialog      *SystemMessageDialog `json:"dialog,omitempty"`
 		User        *UserRef             `json:"user,omitempty"`
 		Responsible *UserRef             `json:"responsible,omitempty"`
 	}
 
+	// Deprecated: Use MessageDialog instead.
 	SystemMessageDialog struct {
+		ID uint64 `json:"id"`
+	}
+
+	MessageDialog struct {
 		ID uint64 `json:"id"`
 	}
 
