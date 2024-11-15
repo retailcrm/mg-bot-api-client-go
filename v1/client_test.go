@@ -555,6 +555,83 @@ func TestMgClient_Messages(t *testing.T) {
 	}
 }
 
+func TestMgClient_MessagesDialog(t *testing.T) {
+	t.Parallel()
+
+	c := client()
+
+	defer gock.Off()
+
+	gock.New(mgURL).
+		Get("/api/bot/v1/messages").
+		Reply(200).
+		BodyString(`[
+			{
+				"id": 1,
+				"time": "2024-11-14T20:48:21Z",
+				"type": "system",
+				"scope": "private",
+				"chat_id": 1,
+				"is_read": false,
+				"is_edit": false,
+				"status": "received",
+				"dialog": {
+					"id": 2054
+				},
+				"action": "dialog_closed",
+				"channel_id": 71,
+				"created_at": "2024-11-14T20:48:21.907566Z",
+				"updated_at": "2024-11-14T20:48:21.907566Z"
+			},
+			{
+				"id": 2,
+				"time": "2024-11-14T19:58:42Z",
+				"type": "text",
+				"scope": "public",
+				"chat_id": 1,
+				"is_read": false,
+				"is_edit": false,
+				"status": "failed",
+				"from": {
+					"id": 1,
+					"external_id": "1",
+					"type": "user",
+					"avatar": "http://avatars-test.jpeg",
+					"name": "John Smith",
+					"first_name": "John",
+					"last_name": "Smith",
+					"available": true
+				},
+				"dialog": {
+					"id": 2054
+				},
+				"error": {
+					"code": "malformed_response"
+				},
+				"content": "Message from user John Smith",
+				"quote": null,
+				"channel_id": 71,
+				"created_at": "2024-11-14T19:58:42.933025Z",
+				"updated_at": "2024-11-14T19:58:45.01619Z"
+			}
+		]`)
+
+	req := MessagesRequest{}
+
+	data, status, err := c.Messages(req)
+	if err != nil {
+		t.Errorf("%d %v", status, err)
+	}
+
+	assert.NoError(t, err)
+	assert.Len(t, data, 2)
+
+	for _, m := range data {
+		assert.NotNil(t, m.Message.Dialog)
+		assert.Equal(t, uint64(2054), m.Message.Dialog.ID)
+	}
+}
+
 func TestMgClient_MessageSendText(t *testing.T) {
 	c := client()
 
