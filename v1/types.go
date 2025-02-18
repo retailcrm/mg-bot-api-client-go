@@ -672,6 +672,7 @@ type (
 		Responsible     *Responsible `json:"responsible"`
 		CreatedAt       string       `json:"created_at"`
 		ClosedAt        *string      `json:"closed_at"`
+		Utm             *Utm         `json:"utm,omitempty"`
 	}
 
 	FileMeta struct {
