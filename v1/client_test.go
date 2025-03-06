@@ -2,8 +2,11 @@ package v1
 
 import (
 	"bytes"
+	"compress/gzip"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"io"
 	"log"
 	"math/rand"
 	"net/http"
@@ -966,13 +969,46 @@ func TestMgClient_WsMeta(t *testing.T) {
 func TestMgClient_UploadFile(t *testing.T) {
 	c := client()
 
+	defer gock.Off()
+	gock.New("https://via.placeholder.com").
+		Get("/300").
+		Reply(http.StatusOK).
+		SetHeader("Content-Type", "image/jpeg").
+		Body(func() io.Reader {
+			res, err := base64.StdEncoding.DecodeString(`
+H4sIAAAAAAACA/t/4/8DBgEvN083BkZGBgZGIGT4f5vBmYGVmYWFhZkVSLCysrKx83CwAwE/Nzcn
+jyC/kJAgv6CgsJiMuLCIlKigoISihJSsrLy8vLC4koqSnIqMnLwcyBBGoFZ2NnY+Dg4+ORFBETmS
+wf8DDIIcDAoMCsyMSgxMgozMgoz/jzDIA93JyggGDFDAyMTMAnQlBycXN1DBVgEGJkZmZiag+4Ee
+AMrWAuUZWARZhRQNHdmEAxPZlQpFjBonLuRQdtp4UDTo4gcV46SiJk4uMXEJSSlVNXUNTS0TUzNz
+C0srZxdXN3cPT6/gkNCw8IjIqOSU1LT0jMys4pLSsvKKyqrmlta29o7OrkmTp0ydNn3GzFmLFi9Z
+umz5ipWrNm3esnXb9h07dx06fOToseMnTp66dPnK1WvXb9y89fDR4ydPnz1/8fLVx0+fv3z99v3H
+z18gfzEyMDPCAFZ/CQL9xQSMFhZ2kL8YmcpBCgRZWBUN2YQcA9kTC4WVjBo5RJwmLtx4kFPZOOiD
+aFLRRS4xFZOHqh9BXgP7jDiPNZHlM7jHEP66xcDDzAiMPGZBBnuGH/fuKWs3sItefBlWa7FqV+h8
+P+01l9b8KnQQ27Labk545NLIL49WZwLl1m322vzyKEPFu6npl7temwAlQ3O1zi8XvQaSXMBtBdcZ
+itDYYP//JgDowAia0AIAAA==`)
+			if err != nil {
+				t.Errorf("%v", err)
+				t.FailNow()
+				return nil
+			}
+
+			unpacker, err := gzip.NewReader(bytes.NewReader(res))
+			if err != nil {
+				t.Errorf("%v", err)
+				t.FailNow()
+				return nil
+			}
+
+			return unpacker
+		}())
+
 	resp, err := http.Get("https://via.placeholder.com/300")
 	if err != nil {
 		t.Errorf("%v", err)
+		t.FailNow()
 	}
 
 	defer resp.Body.Close()
-	defer gock.Off()
 
 	gock.New(mgURL).
 		Post("/api/bot/v1/files/upload").
