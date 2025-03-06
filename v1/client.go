@@ -16,21 +16,21 @@ import (
 
 type Option func(*MgClient)
 
-// OptionHTTPClient set custom http.Client for MgClient
+// OptionHTTPClient set custom http.Client for MgClient.
 func OptionHTTPClient(client *http.Client) func(*MgClient) {
 	return func(c *MgClient) {
 		c.httpClient = client
 	}
 }
 
-// OptionLogger sets the provided logger instance into the MgClient
+// OptionLogger sets the provided logger instance into the MgClient.
 func OptionLogger(logger BasicLogger) func(*MgClient) {
 	return func(c *MgClient) {
 		c.logger = logger
 	}
 }
 
-// OptionDebug enables debug mode for MgClient
+// OptionDebug enables debug mode for MgClient.
 func OptionDebug() func(*MgClient) {
 	return func(c *MgClient) {
 		c.Debug = true
@@ -53,7 +53,7 @@ func New(url string, token string, opts ...Option) *MgClient {
 }
 
 // WithLogger sets the provided logger instance into the Client.
-// Deprecated: Use functional option OptionLogger instead
+// Deprecated: Use functional option OptionLogger instead.
 func (c *MgClient) WithLogger(logger BasicLogger) *MgClient {
 	c.logger = logger
 	return c
