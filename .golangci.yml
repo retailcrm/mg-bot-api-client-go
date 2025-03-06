@@ -1,5 +1,4 @@
 run:
-  skip-dirs-use-default: true
   allow-parallel-runners: true
   modules-download-mode: readonly
 
@@ -48,7 +47,6 @@ linters:
 
 linters-settings:
   govet:
-    check-shadowing: false
     disable-all: true
     enable:
       - assign
@@ -67,7 +65,6 @@ linters-settings:
       - unmarshal
       - unreachable
       - unsafeptr
-      - unused
     settings:
       printf:
         funcs:
@@ -116,8 +113,6 @@ linters-settings:
           - log.Printf
           - log.Println
           - runtime/trace.Logf
-  unused:
-    check-exported: false
   unparam:
     check-exported: false
   dogsled:
@@ -182,6 +177,3 @@ issues:
 severity:
   default-severity: error
   case-sensitive: false
-
-service:
-  golangci-lint-version: 1.62.x

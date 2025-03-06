@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Check out code into the Go module directory
         uses: actions/checkout@v4
-      - name: Set up latest Go 1.x version
+      - name: Set up Go 1.24
         uses: actions/setup-go@v5
         with:
           go-version: '1.24'

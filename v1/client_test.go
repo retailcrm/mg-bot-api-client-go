@@ -6,6 +6,7 @@ import (
 	"encoding/base64"
 	"encoding/json"
 	"fmt"
+	"github.com/stretchr/testify/require"
 	"io"
 	"log"
 	"math/rand"
@@ -72,7 +73,7 @@ func TestMgClient_Bots(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotEmpty(t, data)
 
 	for _, bot := range data {
@@ -151,7 +152,7 @@ func TestMgClient_Channels(t *testing.T) {
 		]`)
 
 	channels, status, err := c.Channels(ChannelsRequest{Active: 1})
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, 200, status)
 	assert.Len(t, channels, 1)
 
@@ -224,7 +225,7 @@ func TestMgClient_Users(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotEmpty(t, data)
 
 	for _, user := range data {
@@ -234,9 +235,9 @@ func TestMgClient_Users(t *testing.T) {
 		assert.Equal(t, "Test", user.FirstName)
 		assert.Equal(t, "Test", user.LastName)
 		assert.Equal(t, "2018-01-01T00:00:00.000000Z", user.CreatedAt)
-		assert.Equal(t, true, user.IsActive)
-		assert.Equal(t, true, user.IsOnline)
-		assert.Equal(t, true, user.IsTechnicalAccount)
+		assert.True(t, user.IsActive)
+		assert.True(t, user.IsOnline)
+		assert.True(t, user.IsTechnicalAccount)
 	}
 }
 
@@ -291,7 +292,7 @@ func TestMgClient_Customers(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotEmpty(t, data)
 
 	for _, customer := range data {
@@ -327,7 +328,7 @@ func TestMgClient_Chats(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotEmpty(t, data)
 
 	for _, chat := range data {
@@ -352,7 +353,7 @@ func TestMgClient_Members(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 
 	for _, member := range data {
 		assert.NotEmpty(t, member.ChatID)
@@ -376,7 +377,7 @@ func TestMgClient_Dialogs(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotEmpty(t, data)
 
 	for _, dialog := range data {
@@ -418,7 +419,7 @@ func TestMgClient_DialogUnassign(t *testing.T) {
 
 		resp, status, err := c.DialogUnassign(777)
 
-		assert.NoError(t, err)
+		require.NoError(t, err)
 		assert.Equal(t, http.StatusOK, status)
 
 		assert.Equal(t, int64(111), resp.PreviousResponsible.ID)
@@ -503,7 +504,7 @@ func TestMgClient_DialogsTagsAdd(t *testing.T) {
 
 	status, err := c.DialogsTagsAdd(req)
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, http.StatusOK, status)
 }
 
@@ -529,7 +530,7 @@ func TestMgClient_DialogsTagsDelete(t *testing.T) {
 
 	status, err := c.DialogTagsDelete(req)
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, http.StatusOK, status)
 }
 
@@ -550,7 +551,7 @@ func TestMgClient_Messages(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotEmpty(t, data)
 
 	for _, message := range data {
@@ -626,7 +627,7 @@ func TestMgClient_MessagesDialog(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Len(t, data, 2)
 
 	for _, m := range data {
@@ -659,7 +660,7 @@ func TestMgClient_MessageSendText(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotEmpty(t, data.MessageID)
 }
 
@@ -697,7 +698,7 @@ func TestMgClient_MessageSendTextWithSuggestions(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotEmpty(t, data.MessageID)
 }
 
@@ -738,7 +739,7 @@ func TestMgClient_MessageSendProduct(t *testing.T) {
 		t.Errorf("%v", err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	t.Logf("%v", msg)
 }
 
@@ -798,7 +799,7 @@ func TestMgClient_MessageSendOrder(t *testing.T) {
 		t.Errorf("%v", err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	t.Logf("%v", msg)
 }
 
@@ -867,7 +868,7 @@ func TestMgClient_Info(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 }
 
 func TestMgClient_Commands(t *testing.T) {
@@ -887,7 +888,7 @@ func TestMgClient_Commands(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotEmpty(t, data)
 
 	for _, command := range data {
@@ -915,7 +916,7 @@ func TestMgClient_CommandEditDelete(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.NotEmpty(t, n.ID)
 
 	gock.New(mgURL).
@@ -928,7 +929,7 @@ func TestMgClient_CommandEditDelete(t *testing.T) {
 		t.Errorf("%d %v", status, err)
 	}
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	t.Logf("%v", d)
 }
 
@@ -959,7 +960,7 @@ func TestMgClient_WsMeta(t *testing.T) {
 		t.Errorf("%v", err)
 	}
 
-	resURL := fmt.Sprintf("%s%s%s%s", strings.Replace(c.URL, "https", "wss", 1), prefix, "/ws?events=", strings.Join(events[:], ","))
+	resURL := fmt.Sprintf("%s%s%s%s", strings.Replace(c.URL, "https", "wss", 1), prefix, "/ws?events=", strings.Join(events, ","))
 	resToken := c.Token
 
 	assert.Equal(t, resURL, url)
@@ -1046,7 +1047,7 @@ func TestMgClient_UploadFileByUrl(t *testing.T) {
 
 	t.Logf("File %+v is upload", uploadFileResponse.ID)
 
-	assert.NoError(t, err)
+	require.NoError(t, err)
 }
 
 func RandStringBytesMaskImprSrc(n int) string {
@@ -1109,9 +1110,9 @@ func TestMgClient_SuccessChatsByCustomerId(t *testing.T) {
 	}
 
 	resp, statusCode, err := apiClient.Chats(chatsRequest)
-	assert.NoError(t, err)
+	require.NoError(t, err)
 	assert.Equal(t, http.StatusOK, statusCode)
-	assert.Equal(t, 1, len(resp))
+	assert.Len(t, resp, 1)
 	assert.Equal(t, uint64(9000), resp[0].ID)
 	assert.Equal(t, uint64(8000), resp[0].Channel.ID)
 	assert.Equal(t, customerID, resp[0].Customer.ID)

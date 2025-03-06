@@ -450,7 +450,7 @@ type (
 	}
 )
 
-// WS options
+// WS options.
 type (
 	WsOption string
 )
