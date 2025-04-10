@@ -383,6 +383,7 @@ type (
 		IsAssigned      bool        `json:"is_assigned"`
 		Responsible     Responsible `json:"responsible,omitempty"`
 		IsActive        bool        `json:"is_active"`
+		Utm             *Utm        `json:"utm,omitempty"`
 	}
 
 	DialogAssignResponse struct {
