@@ -110,22 +110,26 @@ type MgClient struct {
 // Request types
 type (
 	BotsRequest struct {
-		ID     uint64 `url:"id,omitempty"`
-		Active uint8  `url:"active,omitempty"`
-		Self   uint8  `url:"self,omitempty"`
-		Role   string `url:"role,omitempty"`
-		Since  string `url:"since,omitempty"`
-		Until  string `url:"until,omitempty"`
-		Limit  int    `url:"limit,omitempty"`
+		ID      uint64 `url:"id,omitempty"`
+		Active  uint8  `url:"active,omitempty"`
+		Self    uint8  `url:"self,omitempty"`
+		Role    string `url:"role,omitempty"`
+		Since   string `url:"since,omitempty"`
+		Until   string `url:"until,omitempty"`
+		SinceID uint64 `url:"since_id,omitempty"`
+		UntilID uint64 `url:"until_id,omitempty"`
+		Limit   int    `url:"limit,omitempty"`
 	}
 
 	ChannelsRequest struct {
-		ID     uint64   `url:"id,omitempty"`
-		Types  []string `url:"types,omitempty"`
-		Active uint8    `url:"active,omitempty"`
-		Since  string   `url:"since,omitempty"`
-		Until  string   `url:"until,omitempty"`
-		Limit  int      `url:"limit,omitempty"`
+		ID      uint64   `url:"id,omitempty"`
+		Types   []string `url:"types,omitempty"`
+		Active  uint8    `url:"active,omitempty"`
+		Since   string   `url:"since,omitempty"`
+		Until   string   `url:"until,omitempty"`
+		SinceID uint64   `url:"since_id,omitempty"`
+		UntilID uint64   `url:"until_id,omitempty"`
+		Limit   int      `url:"limit,omitempty"`
 	}
 
 	UsersRequest struct {
@@ -135,6 +139,8 @@ type (
 		Active     uint8  `url:"active,omitempty"`
 		Since      string `url:"since,omitempty"`
 		Until      string `url:"until,omitempty"`
+		SinceID    uint64 `url:"since_id,omitempty"`
+		UntilID    uint64 `url:"until_id,omitempty"`
 		Limit      int    `url:"limit,omitempty"`
 	}
 
@@ -145,6 +151,8 @@ type (
 		ExternalID  string `url:"external_id,omitempty" json:"external_id"`
 		Since       string `url:"since,omitempty"`
 		Until       string `url:"until,omitempty"`
+		SinceID     uint64 `url:"since_id,omitempty"`
+		UntilID     uint64 `url:"until_id,omitempty"`
 		Limit       int    `url:"limit,omitempty"`
 	}
 
@@ -158,16 +166,19 @@ type (
 		Until                    string `url:"until,omitempty"`
 		Limit                    int    `url:"limit,omitempty"`
 		SinceID                  int    `url:"since_id,omitempty"`
+		UntilID                  int    `url:"until_id,omitempty"`
 		IncludeMassCommunication uint8  `url:"include_mass_communication,omitempty"`
 	}
 
 	MembersRequest struct {
-		ChatID uint64 `url:"chat_id,omitempty" json:"chat_id"`
-		UserID string `url:"user_id,omitempty" json:"user_id"`
-		State  string `url:"state,omitempty"`
-		Since  string `url:"since,omitempty"`
-		Until  string `url:"until,omitempty"`
-		Limit  int    `url:"limit,omitempty"`
+		ChatID  uint64 `url:"chat_id,omitempty" json:"chat_id"`
+		UserID  string `url:"user_id,omitempty" json:"user_id"`
+		State   string `url:"state,omitempty"`
+		Since   string `url:"since,omitempty"`
+		Until   string `url:"until,omitempty"`
+		SinceID uint64 `url:"since_id,omitempty"`
+		UntilID uint64 `url:"until_id,omitempty"`
+		Limit   int    `url:"limit,omitempty"`
 	}
 
 	DialogsRequest struct {
@@ -180,6 +191,7 @@ type (
 		Since                    string `url:"since,omitempty"`
 		SinceID                  int    `url:"since_id,omitempty"`
 		Until                    string `url:"until,omitempty"`
+		UntilID                  int    `url:"until_id,omitempty"`
 		Limit                    int    `url:"limit,omitempty"`
 		IncludeMassCommunication uint8  `url:"include_mass_communication,omitempty"`
 	}
@@ -222,6 +234,8 @@ type (
 		Type                     string `url:"type,omitempty"`
 		Since                    string `url:"since,omitempty"`
 		Until                    string `url:"until,omitempty"`
+		SinceID                  int    `url:"since_id,omitempty"`
+		UntilID                  int    `url:"until_id,omitempty"`
 		Limit                    int    `url:"limit,omitempty"`
 		IncludeMassCommunication uint8  `url:"include_mass_communication,omitempty"`
 	}
@@ -259,11 +273,13 @@ type (
 	}
 
 	CommandsRequest struct {
-		ID    uint64 `url:"id,omitempty"`
-		Name  string `url:"name,omitempty"`
-		Since string `url:"since,omitempty"`
-		Until string `url:"until,omitempty"`
-		Limit int    `url:"limit,omitempty"`
+		ID      uint64 `url:"id,omitempty"`
+		Name    string `url:"name,omitempty"`
+		Since   string `url:"since,omitempty"`
+		Until   string `url:"until,omitempty"`
+		SinceID uint64 `url:"since_id,omitempty"`
+		UntilID uint64 `url:"until_id,omitempty"`
+		Limit   int    `url:"limit,omitempty"`
 	}
 
 	CommandEditRequest struct {
