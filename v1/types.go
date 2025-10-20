@@ -236,6 +236,7 @@ type (
 		ChatID               uint64                `url:"chat_id,omitempty" json:"chat_id"`
 		QuoteMessageId       uint64                `url:"quote_message_id,omitempty" json:"quote_message_id"`
 		TransportAttachments *TransportAttachments `url:"transport_attachments,omitempty" json:"transport_attachments"`
+		MassCommunication    *bool                 `url:"mass_communication" json:"mass_communication,omitempty"`
 	}
 
 	TransportAttachments struct {
