@@ -476,19 +476,20 @@ type (
 // Single entity types
 type (
 	Message struct {
-		ID      uint64          `json:"id"`
-		Time    string          `json:"time"`
-		Type    string          `json:"type"`
-		Scope   string          `json:"scope"`
-		ChatID  uint64          `json:"chat_id"`
-		IsRead  bool            `json:"is_read"`
-		IsEdit  bool            `json:"is_edit"`
-		Status  string          `json:"status"`
-		Chat    *Chat           `json:"chat"`
-		From    *UserRef        `json:"from"`
-		Product *MessageProduct `json:"product,omitempty"`
-		Order   *MessageOrder   `json:"order,omitempty"`
-		Dialog  *MessageDialog  `json:"dialog,omitempty"`
+		ID           uint64          `json:"id"`
+		Time         string          `json:"time"`
+		Type         string          `json:"type"`
+		Scope        string          `json:"scope"`
+		ChatID       uint64          `json:"chat_id"`
+		IsRead       bool            `json:"is_read"`
+		IsEdit       bool            `json:"is_edit"`
+		Status       string          `json:"status"`
+		TemplateCode *string         `json:"template_code,omitempty"`
+		Chat         *Chat           `json:"chat"`
+		From         *UserRef        `json:"from"`
+		Product      *MessageProduct `json:"product,omitempty"`
+		Order        *MessageOrder   `json:"order,omitempty"`
+		Dialog       *MessageDialog  `json:"dialog,omitempty"`
 		*TextMessage
 		*SystemMessage
 		*AttachmentList
