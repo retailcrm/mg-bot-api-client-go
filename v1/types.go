@@ -807,7 +807,12 @@ type (
 	}
 
 	WsEventDialogOpenedData struct {
-		Dialog *Dialog `json:"dialog"`
+		Dialog           *Dialog `json:"dialog"`
+		PrecedingMessage *struct {
+			MessageID int64     `json:"message_id"`
+			CreatedAt time.Time `json:"created_at"`
+			AuthorID  int64     `json:"author_id"`
+		} `json:"preceding_message"`
 	}
 
 	WsEventDialogClosedData struct {
